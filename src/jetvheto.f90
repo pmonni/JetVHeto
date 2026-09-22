@@ -9,8 +9,6 @@ program jetvheto
   use banner
   use warnings_and_errors
   use interpolation
-  use jetveto_n3ll, only: initialize_jetveto_n3ll
-  use, intrinsic :: ieee_arithmetic, only: ieee_is_finite
   implicit none
 
   ! --------------------------------------------------------------------
@@ -31,8 +29,7 @@ program jetvheto
   character(len=5)   :: collider
   character(len=20)  :: algo
   character(len=10)  :: matching_scheme
-  character(len=4096) :: outfile, infile, interp_infile
-  character(len=4096) :: n3ll_data
+  character(len=200) :: outfile, infile, interp_infile
   character(len=4)   :: loop_mass
   character(len=3)   :: observable
   logical :: differential, check_logs, small_r, logscale, fivecol
@@ -44,6 +41,7 @@ program jetvheto
   write(6,*)
   call print_banner
   write(6,*)
+  call sleep(1)
   if (log_val_opt("-h") .or. log_val_opt("-help")) then
      call print_help
      stop
@@ -61,10 +59,10 @@ program jetvheto
 
   do_matching = .not. resum_only
   if (do_matching) then
-     infile = path_val_opt("-in", "")
+     infile = string_val_opt("-in", "")
      if (infile == '') then 
         write(0,*) 'Please specify fixed order file name with -in commandline option' 
-        error stop 'Missing fixed-order input: specify -in or -resum-only'
+        stop 
      endif
      ptmax = dble_val_opt("-ptmax",1e200_dp)
      call read_file_into_array(infile, pt_and_sigmabar, opts, max_col1 = ptmax)
@@ -77,7 +75,7 @@ program jetvheto
      sigma(3) = dble_val(opts,"delta_xsct_nnnlo",default=zero)
 
    ! internal use only: interpolate the NNLO column using some auxiliary file
-     interp_infile = path_val_opt("-interp", "-1")
+     interp_infile = string_val_opt("-interp", "-1")
      if (interp_infile.ne."-1") then
         call read_file_into_array(interp_infile, pt_and_sigmabar_ref, dummy_opts, max_col1 = ptmax)
         ! total cross sections in nb
@@ -151,11 +149,10 @@ program jetvheto
   ! the fixed order (1=NLO, 2=NNLO, 3=N3LO)
   fixed_order = int_val_opt('-fixed_order', fixed_order_NNLO)
 
-  ! the resummation order (0 = LL, 1 = NLL, 2 = NNLL, 3 = N3LL)
+  ! the resummation order (0 = LL, 1 = NLL, 2 = NNLL)
   order = int_val_opt("-order",order_NNLL)
   ! the matching scheme
-  matching_scheme = string_val_opt("-scheme","anew")
-  if(trim(matching_scheme)/='anew') error stop 'Only matching scheme anew is supported; draft and legacy schemes have been removed'
+  matching_scheme = string_val_opt("-scheme","a")
 
   ! the jet radius is that for any member of the longitudinally
   ! invariant generalised kt family (in so-called "inclusive" mode)
@@ -168,7 +165,7 @@ program jetvheto
 
   !----------------------------------------------------------------------
   ! decide where to send output and in what format
-  outfile = path_val_opt("-out","/dev/stdout")
+  outfile = string_val_opt("-out","/dev/stdout")
   if (outfile == "-") then
      iunit = 6
   else
@@ -222,50 +219,12 @@ program jetvheto
   if (fixed_order >= fixed_order_N3LO .and. cs%small_r_ln2z) then
      call wae_error("fixed_order >= fixed_order_N3LO not yet compatible with -small-r-ln2z")
   end if
-  if(trim(matching_scheme)=='anew') then
-     if(order<order_LL.or.order>order_N3LL) error stop 'Supported resummation orders are 0 through 3'
-     cs%matching_anew=.true.
-     cs%truncate_rapidity_rge_at_n3ll=log_val_opt('-truncate-rapidity-rge-at-n3ll',.false.)
-     if(cs%truncate_rapidity_rge_at_n3ll.and.order/=order_N3LL) &
-       error stop '-truncate-rapidity-rge-at-n3ll requires -order 3'
-     cs%use_new_modlog=log_val_opt('-new_modlog',.false.)
-     cs%xM=dble_val_opt('-xM',0.5_dp)
-     if(log_val_opt('-xM').and..not.cs%use_new_modlog) error stop '-xM requires -new_modlog'
-     if(cs%use_new_modlog) then
-       if(.not.ieee_is_finite(cs%xM)) error stop 'Profile: nonfinite xM'
-       if(cs%xM<0.5_dp.or.cs%xM>1._dp) error stop 'Profile requires 0.5 <= xM <= 1'
-       if(Q<cs%xM*M/4) error stop 'Profile requires Q >= xM*M/4'
-       if(log_val_opt('-p').or.is_present(opts,'p')) error stop '-p is not used with -new_modlog'
-     endif
-     if(fixed_order<1 .or. fixed_order>3) error stop 'N3LL: fixed order must be 1, 2 or 3'
-     if(check_logs) error stop 'N3LL: legacy check-logs mode is not supported'
-     if(order==order_N3LL.and.resum_only .and. .not.cross_section) &
-       error stop 'N3LL resum-only requires -cross-section: no NNLO inclusive total is available for an efficiency'
-     if(p<=0 .or. min(M,Q,muR,muF)<=0) error stop 'N3LL: positive scales and profile power required'
-     if(resum_only.and.onejet_cross_section) error stop 'N3LL: -1j requires a fixed-order inclusive total'
-     if(do_matching) then
-       if(size(pt_and_sigmabar,1)<fixed_order+1) error stop 'N3LL: missing fixed-order columns'
-       if(fixed_order==3) sigma(3)=dble_val(opts,'delta_xsct_nnnlo')
-     end if
-     cs%jet_algorithm=string_val_opt('-jet-algorithm','antikt')
-     if(do_matching) then
-       algo=string_val_opt('-fixed-order-algorithm','antikt')
-       if(trim(algo)/=trim(cs%jet_algorithm)) error stop 'N3LL: resummed and fixed-order jet algorithms differ'
-     end if
-     n3ll_data=path_val_opt('-n3ll-data','data/TMDs_ptj')
-     if(cs%small_r_ln2z) error stop '-small-r-ln2z is not supported with anew matching'
-     if(cs%small_r.and.order/=order_NNLL) &
-       error stop '-small-r is supported only at NNLL; not supported at LL, NLL or N3LL'
-     if(cs%observable/='ptj'.or.cs%include_c1_squared) &
-       error stop 'anew: non-ptj observables and c1-squared are not supported'
-     if(order==order_N3LL) call initialize_jetveto_n3ll(cs,trim(n3ll_data))
-  end if
   
   
   !----------------------------------------------------------------------
   ! verify we've used all the command-line arguments and all the options
   ! from the fixed-order file
-  if (.not. CheckAllArgsUsed(0)) error stop 'Unrecognized command-line option'
+  if (.not. CheckAllArgsUsed(0)) stop
   call assert_all_opts_used(opts)
 
   !----------------------------------------------------------------------
@@ -273,33 +232,8 @@ program jetvheto
   write(iunit,'(a)') "# "//trim(command_line())
   call print_parameters(iunit,cs)
   write(iunit,'(a)') "# order = "//order_string(order)
-  if(order==order_N3LL) then
-    write(iunit,'(a)') '# Unprimed N3LL resummation; see docs/VALIDATION.md for scope and limitations'
-    write(iunit,'(a)') '# jet algorithm = '//trim(cs%jet_algorithm)
-    write(iunit,'(a)') '# Fixed-order input must use the same jet algorithm and radius.'
-    write(iunit,'(a)') '# Cross-section output units: nb (multiply by 1000 for pb).'
-    if(resum_only) write(iunit,'(a)') '# Resum-only: matched/fixed-order columns are unavailable (zero placeholders).'
-  end if
   write(iunit,'(a,i4)') "# pdf name and set = "//trim(pdf_name)//", ", pdf_set
   write(iunit,'(a)') "# matching scheme = "//trim(matching_scheme)
-  if(order==order_N3LL) then
-    if(cs%truncate_rapidity_rge_at_n3ll) then
-      write(iunit,'(a)') '# radius exponent = strict N3LL rapidity RGE; native coefficients'
-    else
-      write(iunit,'(a)') '# radius exponent = RadISH inclusive products; native coefficients'
-    endif
-  endif
-  if(cs%matching_anew) then
-    if(cs%use_new_modlog) then
-      write(iunit,'(a,f8.4)') '# RadISH profiled logarithm with cutoff; xM = ',cs%xM
-      write(iunit,'(a)') '# Q above is the initial scale, not the per-bin profile value.'
-    else
-      write(iunit,'(a)') '# original fixed-Q modified logarithm'
-    endif
-    write(iunit,'(a)') '# matching prefactor P (RadISH anew convention); radius factor outside'
-    ! Internal polynomial algebra; the user-facing scheme remains anew.
-    matching_scheme='a'
-  endif
 
   !----------------------------------------------------------------------
   ! Get our own evaluation of the total cross section at LO and NLO.
@@ -382,10 +316,6 @@ program jetvheto
      final_result(3,:) = resummed(:)/(sigma(0) + sum(sigma(1:order-1))) ! normalization  
      ! pure fixed order (in a scheme analogous to that used for the matching).
      final_result(4,:) = fixed_order_schemes(matching_scheme, sigma, pt_and_sigmabar(2:fixed_order+1,:))
-     if(order==order_N3LL .and. resum_only) then
-        final_result(3,:)=resummed/1e6_dp ! fb -> nb; no invented NNLO total
-        final_result(4,:)=zero
-     end if
 
      if (cross_section.and.do_matching) then
         if (matching_scheme == 'a') then
@@ -403,19 +333,19 @@ program jetvheto
      ! put out a header for the numbers
      write(iunit,'(a)') '#----------------------------------------------------------------------'
      if (differential) then
-        if (cross_section.and.(do_matching.or.order==order_N3LL)) then
+        if (cross_section.and.do_matching) then
            write(iunit,'(a)') '# the lines that follow give the derivative of the jet veto cross section wrt pt'
         else
            write(iunit,'(a)') '# the lines that follow give the derivative of the jet veto efficiencies wrt pt'
         end if
      else
-        if (cross_section.and.(do_matching.or.order==order_N3LL)) then
+        if (cross_section.and.do_matching) then
            write(iunit,'(a)') '# the lines that follow give the jet-veto cross section as a function of pt'
         else
            write(iunit,'(a)') '# the lines that follow give the jet-veto efficiencies as a function of pt'
         end if
      end if
-     if (cross_section.and.(do_matching.or.order==order_N3LL)) then
+     if (cross_section.and.do_matching) then
         write(iunit,'(a)') '#         pt            matched xs      resummed xs     fixed-order xs'
      else
         write(iunit,'(a)') '#         pt            matched eff      resummed eff     fixed-order eff'

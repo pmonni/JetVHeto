@@ -1,0 +1,15 @@
+JetVHeto was written by 
+
+  Andrea Banfi
+  Pier Francesco Monni
+  Gavin P. Salam 
+  Giulia Zanderighi
+
+and implements the resummation and matching described in arXiv:1206.4998.
+
+The current version (v3) contains the resummation of leading logarithm
+in the jet radius described in arXiv:1411.5182. The corresponding code
+has been developed by
+
+  Gavin Salam
+  Frederic Dreyer

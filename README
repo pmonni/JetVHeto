@@ -1,0 +1,261 @@
+           ********************************************
+           *            JetVHeto Version 3.0.0        *
+           ********************************************
+
+ This is JetVHeto, a program that performs NNLL resummation for
+ jet-veto efficiencies and cross sections in Higgs and Z-boson
+ production. It also carries out matching to fixed-order (up to NNNLO)
+ results provided by the user. 
+
+ The jets should be defined according to any longitudinally-invariant
+ generalised kt algorithm (e.g. kt, anti-kt, C/A...), in the so-called
+ "inclusive" mode, with E-scheme recombination and a a distance
+ measure based on Delta y^2 + Delta phi^2.
+
+ At NNLO and NNLL the resummed, fixed order and matched results are
+ independent of whether the jet algorithm is kt, C/A or anti-kt (but
+ do depend on the jet-radius R).
+ 
+ New features of version 3:
+
+ * Matching to exact NNNLO. Note that the provided fixed-order results
+   are for the anti-kt algorithm only.
+
+ * Resummation of small-R logarithms, which can be achieved with the
+   "-small-r" option. Such resummation is generally not required for
+   values R >= 0.4.
+
+ JetVHeto is made available under the GNU General Public License v3.
+
+ If you use it in scientific work, please cite 
+
+* A. Banfi, F. Caola, F.A. Dreyer, P.F. Monni, G.P. Salam, G. Zanderighi, 
+  F. Dulat, arXiv:1511.02886A. Banfi, F. Caola, F.A. Dreyer, 
+  P.F. Monni, G.P. Salam, G. Zanderighi, F. Dulat, arXiv:1511.02886 
+
+* A. Banfi, P.F. Monni, G.P. Salam and G. Zanderighi,
+Phys. Rev. Lett. 109 (2012) 202001 [arXiv:1206.4998] 
+
+* A. Banfi, P.F. Monni and G. Zanderighi JHEP 01 (2014) 097 
+  [arXiv:1308.4634]
+
+ You are also encouraged to cite
+ * A. Banfi, G.P. Salam and G. Zanderighi, JHEP 06 (2012) 159 
+   [arXiv:1203.5773] containing the R-dependent piece of NNLL resummation.
+
+ If you use the "-small-r" option, cite
+ * M. Dasgupta, F.A. Dreyer, G.P. Salam, Gregory Soyez JHEP 04 (2015) 039 
+   [arXiv:1411.5182].
+
+ The program is written in Fortran 95.
+ 
+ Directory structure: 
+   JetVHeto/                    root directory containing the Makefile, this README, and
+                                where the executable with be created
+   JetVHeto/src                 location of the source files
+   JetVHeto/obj                 default location of object (*.o) files
+   JetVHeto/modules             default location of the Fortran 95 module (*.mod) files 
+
+ Directories containing benchmark fixed-order results:
+   JetVHeto/fixed-order         NNLO with mt -> infinity
+   If you use these files, please cite:
+   * http://mcfm.fnal.gov
+   * S. Catani and M. Grazzini, Phys. Rev. Lett. 98 (2007) 222002
+   * C. Anastasiou, K. Melnikov and F. Petriello, Nucl. Phys. B724 (2005) 197 [hep-ph/0501130]
+
+   JetVHeto/fixed-order-masses  NLO with finite mt and mb, rescaled NNLO
+   If you use these files, add to the previous citations: 
+   * R.K. Ellis, I. Hinchliffe, M. Soldate, J.J. van der Bij, Nucl. Phys. B297 (1988) 221
+   * U. Baur and E.W.N. Glover, Nucl. Phys. B339 (1990) 38
+   * M. Spira, A. Djouadi, D. Graudenz and P.M. Zerwas, Nucl. Phys. B453 (1995) 17 [hep-ph/9504378]
+   * R. Harlander and P. Kant, JHEP 0512 (2005) 015 [hep-ph/0509189]
+   * M. Grazzini and H. Sargsyan, JHEP {\bf 1309} (2013) 129  [arXiv:1306.4581].
+  
+  JetVHeto/n3lo-fixed-order    NNNLO with mt -> infinity
+  If you use these files, add to the previous citations:   
+  * C. Anastasiou, C. Duhr, F. Dulat, F. Herzog, B. Mistlberger, Phys. Rev. Lett.  114 (2015) 212001 [arXiv:1503.06056]
+  * R. Boughezal, F. Caola, K. Melnikov, F. Petriello, M. Schulze, Phys. Rev. Lett.  115 (2015) 8,  082003 [arXiv:1504.07922]
+
+ Directories containing benchmark matched results, obtained with the above fixed-order results (please cite them accordingly):	
+
+JetVHeto/benchmarks-n3lo-smallR   matched resummed and fixed-order predictions, 
+   				  with and without finite-mass and small-R effects
+				  at 13 TeV
+
+ Helper scripts
+   JetVHeto/python/             directory with a python helper script to
+                                help collect results from many scales/schemes
+
+----------------------------------------------------------------------
+Build:
+------
+
+ To build, you will need:
+ * LHAPDF (available at http://lhapdf.hepforge.org/, 5.8.0 <= version <= 5.9.1)
+ * HOPPET (http://hoppet.hepforge.org/, version 1.1.5 or higher)
+ * CHAPLIN (https://chaplin.hepforge.org/, version 1.2 or higher)
+
+ The Makefile assumes that lhapdf-config and hoppet-config are in your
+ path. If not, then set the LHAPDFCONFIG and HOPPETCONFIG variables
+ appropriately at the beginning of the Makefile.
+
+ Other influential environment variables:
+   FC           Fortran 95 compiler command 
+   FFLAGS       Fortran 95 flags 
+   CHAPLIN      The location of libchaplin.a
+
+ To perform the build, simply type
+
+   make
+
+ which will create a "jetvheto" executable.
+
+----------------------------------------------------------------------
+Usage Example:
+--------------
+
+ To get an NNLL + N3LO resummation, using information from an
+ existing fixed-order file
+  
+   n3lo-fixed-order/H125-LHC13-R04-mb-475-mt-1725-xmur050-xmuf050-log.nores.diff
+
+ run the following command
+
+   ./jetvheto -xQ 0.5 -scheme a -order 2 -ptmax 500.01 -fixed_order 3 -loop-mass t+b \
+       -in n3lo-fixed-order/H125-LHC13-R04-mb-475-mt-1725-xmur050-xmuf050-log.nores.diff \
+       -out H125-LHC13-R04-mb-475-mt-1725-xmur050-xmuf050-xQ050-N3LO+NNLLa.res
+
+ The output will be put in a file called H125-LHC13-R04-mb-475-mt-1725-xmur050-xmuf050-xQ050-N3LO+NNLLa.res 
+
+ The header of each benchmark files contains the commandline that has
+ been used to generate it
+
+----------------------------------------------------------------------
+ Instructions for creating you own fixed order file: 
+----------------------------------------------------
+
+ Fixed order files should have the same format as the examples given.
+ In particular, the first lines should contain information on
+
+   process, collider, sqrts, pdf_name, mur, muf, algo, R 
+
+ (the order is irrelevant). Alternatively, the missing information can
+ be passed via command-line options. Notice that the name of the file
+ is not used to fix any of these quantities.
+ 
+ The fixed-order files should also contain totally inclusive LO, NLO,
+ and NNLO cross-sections in nb. These can be obtained by running
+ DYNNLO or FEWZ for DY and HNNLO or FEHiP for Higgs production. 
+ 
+ Finally, the file should contain a table with cumulative
+ cross-sections in nb as defined in Eq. (22) of the additional material
+ of http://arXiv.org/pdf/1206.4998.pdf. These distributions can be
+ obtained for instance by running MCFM for the procesesses H+1jet of
+ Z+1jet at LO and NLO (setting remove br = .true.) and integrating the
+ resulting pt distribution of the leading jet from the maximum allowed
+ kinematical value to the binned pt. If you do this by yourself, it is
+ wise to first try to reproduce one of the existing fixed-order files.
+
+ NNNLO cumulative distributions can be obtained with an analogous
+ procedure, once the codes for the NNNLO cross sections and for H+1jet
+ a NNLO will become publicly available. One needs to add an extra line
+ (delta_xsct_nnnlo = ....)  corresponding to the NNNLO correction to
+ the total cross section as well as an extra column (sigmabar^(2)
+ [nb]), containing the NNLO correction to the cumulative cross
+ section.
+
+----------------------------------------------------------------------
+Detailed usage:
+--------------
+
+ Usage: jetvheto [OPTIONS]
+ 
+ Options: 
+   OPTION          <description> [<default value>]
+    -h, -help	    display this help and exit
+                   
+    -in		    The name of the file containing fixed-order results
+                            (required unless you are not doing a matching, see
+                            -resum-only below)
+                   
+    -out   	           The name of the output file [/dev/stdout]	
+    -differential   If used, the differential distribution is returned [.false.]
+    
+    -cross-section  If used, the cross section is returned instead of the efficiency [.false.]
+
+    -loop-mass   Include full dependence on heavy-quark masses in loops 
+    			  (none-> large mt limit,t -> top only ,t+b -> top and bottom) [none]                   
+
+    -order	 Resummation order (0-> LL; 1-> NLL; 2-> NNLL) [2]
+    -fixed_order  Order of the fixed-order integrated distribution which the resummation 
+    		  	   is matched to (1-> NLO, 2-> NNLO, 3-> N3LO (ptj only)) [2]
+    -scheme     Matching scheme to fixed order result. We recommend the
+                use of schemes a and b, but more options are available 
+		(see code for details) [a]
+    -xQ	        Ratio of resummation scale Q to boson mass [0.5]
+    -p          Parameter controlling the modified logarithms [5.0]
+    
+    -observable  The observable to be resummed (ptj -> leading jet pt, ptB -> boson pt) [ptj]
+    -ptcut       Cutoff in transverse momentum for resummed predictions ([M/4] for ptB; [0] for ptj)
+    -small-r     Turn on small-radius resummation. [.false.]
+    -R0          Set the resummation scale for small-R logs (only with -small-r option) [1.0]
+
+    The following information:
+
+      proc, collider, sqrts, pdf_name, M (in the Higgs case), mur, muf, algo, R 
+
+    should always be contained in the input file, and cannot be
+    overwritten via command-line options. 
+   		 
+ It is also possible to perform just the resummation, without a
+ matching. This is useful for example when no fixed-order file is
+ available, and one believes that the resummation alone may be
+ informative (the NNLL resummation is often reasonably reliable on its
+ own in the region of small pt).
+
+ The -resum-only option turns this facility on; one is then not
+ allowed to give the "-in" option, and instead parameters are set
+ entirely from the command line:
+
+   -proc         "H" for Higgs boson production, "DY" for Z boson production 
+                 ["H"]
+   -collider     Collider type ("pp" for proton-proton, "ppbar" for 
+                 proton-antiproton) [pp]
+   -sqrts	 Centre of mass energy [13000 GeV]
+   -pdf_name     LHAPDF data file for the chosen pdf set 
+   		 [NNPDF23_nnlo_as_0118.LHgrid]
+   -pdf_set      the index of the set to use [0]
+   -muR	         Renormalisation scale [M/2]
+   -muF	         Factorisation scale [M/2]
+   -R 	         Jet-radius R [0.4]
+   -ptmin        Sets the minimum value of the jet pt [1d0]
+   -ptmax        Sets the maximum value of the jet pt [300d0]. Otherwise it 
+                 sets the maximum value of jet pt read from the input file 
+                 [1e200].
+   -nbins        Sets the number of bins in jet pt [300].
+   -log          The binning in jet pt is logarithmic [.false.]
+   -M            In the case of Higgs production, it sets the Higgs boson mass
+                 [125d0 GeV]. Z boson mass cannot be set from the
+                 command line and its hard-coded value is 91.1876 GeV.
+		 		 
+
+----------------------------------------------------------------------
+Gathering uncertainties
+-----------------------
+
+If you have a set of output files named in a similar way to those in
+the benchmark directorites, then you can use the following
+
+   python/gather-uncertainties.py
+
+to gather all the results and obtain a single result with its
+uncertainty band.
+
+   python/gather-uncertainties.py -h
+
+will print out detailed usage instructions, including some
+examples. E.g. to reproduce the N3LO+NNLL results for the
+jet veto efficiency, with the HEFT, run the following
+
+    python/gather-uncertainties.py -dir benchmarks-n3lo/ -filehead H125-LHC13-R04-heft \
+                                   -order N3LO+NNLL -schemes a-RF-Q-R0,b

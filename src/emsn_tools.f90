@@ -6,57 +6,15 @@
 module emsn_tools
   use types; use consts_dp
   use rad_tools; use hoppet_v1
-  use, intrinsic :: ieee_arithmetic, only: ieee_is_finite
   implicit none
   private
 
   public :: non_incl, non_incl_lnR, av_lnz_smallR, av_ln2z_smallR, non_incl_aslnR_sq
-  public :: small_r_factor, validate_small_r
 
   real(dp), parameter :: lntwo =&
        & 0.693147180559945309417232121458176568075_dp
 
 contains
-
-  subroutine validate_small_r(cs,order)
-    type(process_and_parameters), intent(in) :: cs
-    integer, intent(in) :: order
-    if(cs%small_r_ln2z) error stop '-small-r-ln2z is not supported with anew matching'
-    if(.not.cs%small_r) return
-    if(order/=order_NNLL) error stop '-small-r is supported only at NNLL; not supported at LL, NLL or N3LL'
-    if(cs%observable/='ptj'.or.cs%jet_algorithm/='antikt') &
-      error stop '-small-r requires ptj and antikt'
-    if(.not.all(ieee_is_finite([cs%jet_radius,cs%small_r_R0]))) error stop 'small-R: nonfinite R or R0'
-    if(cs%jet_radius<=0.or.cs%small_r_R0<cs%jet_radius) error stop 'small-R requires 0 < R <= R0'
-  end subroutine
-
-  function small_r_factor(lambda,cs) result(f)
-    real(dp), intent(in) :: lambda(:)
-    type(process_and_parameters), intent(in) :: cs
-    real(dp) :: f(size(lambda)),aL(size(lambda)),b0
-    call validate_small_r(cs,order_NNLL)
-    if(any(lambda>=half)) error stop 'small-R: radiator Landau pole'
-    aL=cs%as2pi/(one-two*lambda)
-    b0=(11*ca_def-2*nf_def)/6
-    if(any(one+two*aL*b0*log(cs%jet_radius/cs%small_r_R0)<=0)) &
-      error stop 'small-R: evolution Landau pole'
-    ! Original JetVHeto prescription: exponentiated microjet moment plus
-    ! the two-loop remainder, with the leading ln(R/R0) overlap subtracted.
-    f=exp(-Rad_p(lambda)*av_lnz_smallR(aL,cs%jet_radius,cs%small_r_R0)) &
-      +Rad_p(lambda)*two*aL*(non_incl(cs%jet_radius,'all')-non_incl_lnR(cs%jet_radius,cs%small_r_R0))
-    if(any(.not.ieee_is_finite(f)).or.any(f<=0)) error stop 'small-R: invalid correction factor'
-  end function
-
-  function lnz_coefficient1() result(z1)
-    real(dp) :: z1
-    z1=((-23._dp+24*lntwo)*nf_def+(131._dp-12*pisq-132*lntwo)*ca_def)/72
-  end function
-
-  function lnz_coefficient2() result(z2)
-    real(dp) :: z2
-    z2=0.103336_dp*ca_def**2+0.192938_dp*ca_def*nf_def &
-      -0.18491_dp*cf_def*nf_def+0.0147326_dp*nf_def**2
-  end function
 
   ! contains the analytic expressions for the non-inclusive (R-dependent) 
   ! corrections
@@ -145,7 +103,10 @@ contains
     ! for ln R resummation, calculate b0 (note different norm from beta0) and t
     b0 = (11._dp*ca_def-2._dp*nf_def)/6._dp
     t = log(one/(one + two*as2pi*b0*log(R/R0)))/b0
-    res = ( t*lnz_coefficient1() + t**2*lnz_coefficient2() &
+    res = ( t*( (-23._dp + 24._dp*lntwo)*nf_def &
+         & + (131._dp -12._dp*pisq - 132._dp*lntwo)*ca_def)/72._dp &
+         & + (t**2)*( 0.103336_dp*(ca_def**2) + 0.192938_dp*ca_def*nf_def &
+         & - 0.18491_dp*cf_def*nf_def + 0.0147326_dp*(nf_def**2) ) &
          & + (t**3)*( -0.0337133_dp*(ca_def**3) - 0.0446767_dp*(ca_def**2)*nf_def &
          & - 0.00522325_dp*ca_def*cf_def*nf_def + 0.0451658_dp*(cf_def**2)*nf_def &
          & - 0.0240506_dp*ca_def*(nf_def**2) + 0.0179606*cf_def*(nf_def**2) &
@@ -195,9 +156,8 @@ contains
     real(dp) :: res 
     ! we have
     !    h_31 = 16 * C * res
-    ! Expand the same t and moment coefficients used above, rather than a
-    ! separately rounded polynomial. h31=16*C*res multiplies a^3*L.
-    res = -log(R/R0)**2 * (((11*ca_def-2*nf_def)/6)*lnz_coefficient1()+two*lnz_coefficient2())
+    res = log(R/R0)**2 * ( 1.803135_dp*(ca_def**2) - 0.5892350_dp*ca_def*nf_def &
+         & + 0.3698205_dp*cf_def*nf_def - 0.0589305_dp*(nf_def**2) )
   end function non_incl_aslnR_sq
 
 

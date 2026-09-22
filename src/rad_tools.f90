@@ -16,7 +16,6 @@ module rad_tools
   integer, parameter, public :: order_LL = 0
   integer, parameter, public :: order_NLL = 1
   integer, parameter, public :: order_NNLL = 2
-  integer, parameter, public :: order_N3LL = 3
 
   ! a type to conveniently hold the coupling and information on 
   ! scale ratios
@@ -37,12 +36,6 @@ module rad_tools
      logical  :: include_c1_squared 
      character(len=4) :: loop_mass 
      character(len=3) :: observable
-     character(len=8) :: jet_algorithm = 'antikt'
-     logical :: use_new_modlog = .false.
-     logical :: truncate_rapidity_rge_at_n3ll = .false.
-     ! False is used internally to enter the unwrapped lower-order kernels.
-     logical :: matching_anew = .true.
-     real(dp) :: xM = 0.5_dp
 
      ! indicates whether to carry out small-R resummation and with what R0
      logical  :: small_r
@@ -73,8 +66,6 @@ contains
        res = "NLL"
     case(order_NNLL)
        res = "NNLL"
-    case(order_N3LL)
-       res = "N3LL"
     case default
        call wae_error("value of order was not recognized in order_string",intval=order)
     end select
@@ -222,11 +213,11 @@ contains
     write(iunit,'(a,f10.5,f10.5,a)') '# alphas(M) = ', RunningCoupling(cs%M)
     write(iunit,'(a,f10.5,f10.5,a)') '# alphas(muR) = ', RunningCoupling(cs%muR)
     write(iunit,'(a,f10.3)') "# Rjet = ", cs%jet_radius
-    write(iunit,'(a,l3)') "# small-R resummation = ", cs%small_r
-    if (cs%small_r) then
-       write(iunit,'(a,f10.5)') "# small-R R0 = ", cs%small_r_R0
-       write(iunit,'(a,l3)')    "# small-R ln^2z terms = ", cs%small_r_ln2z
-    end if
+    !write(iunit,'(a,l3)') "# small-R resummation = ", cs%small_r
+    !if (cs%small_r) then
+    !   write(iunit,'(a,f10.5)') "# small-R R0 = ", cs%small_r_R0
+    !   write(iunit,'(a,l3)')    "# small-R ln^2z terms = ", cs%small_r_ln2z
+    !end if
     
   end subroutine print_parameters
   

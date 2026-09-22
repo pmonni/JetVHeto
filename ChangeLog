@@ -1,0 +1,276 @@
+2015-11-03  Gavin Salam  <gavin.salam@cern.ch>
+
+	* README:
+	added note about gather-uncertainties.py
+
+2015-11-02  Gavin Salam  <gavin.salam@cern.ch>
+
+	* python/gather-uncertainties.py: *** ADDED ***
+	* python/hfile.py:                *** ADDED ***
+	* python/cmdline.py:              *** ADDED ***
+
+	Added the gather-uncertainties.py script to assist with obtaining
+	results with uncertainties from a complete set of input files.
+
+	Run "python/gather-uncertainties.py -h" for detailed help.
+
+2015-06-29  Pier Francesco Monni
+	* src_smallR/matching.f90 (jetvheto):
+	Change in fixed-order and matching scheme (c) of N3LO efficiency
+	Added fixed-order results for N3LO matching
+	Added benchmark files for N3LO mathching
+	
+2015-06-29  Andrea Banfi  <ab625@higgs.phys.susx.ac.uk>
+
+	* src_smallR/jetvheto.f90 (jetvheto): 
+	Written cross section using sigma_native when resum_only=.true.
+
+2015-05-19  Pier Francesco Monni
+	* src/matching.f90 (jetvheto):
+	Fixed bug in scheme (d) of N3LO matching
+	Added Gavin & Frederic's code for small R resummation
+2014-03-12  Pier Francesco Monni
+	* src/jetvheto.f90 (jetvheto):
+	Option loop-mass is now read from fixed-order files
+	
+2014-03-03  Pier Francesco Monni
+	* src/jetvheto.f90 (jetvheto):
+	Added ptcut cutoff in transverse momentum.
+	Useful for ptB resummed predictions.
+	
+2013-12-17  Andrea Banfi+Pier Francesco Monni+Giulia Zanderighi
+
+	* src/jetvheto.f90 (jetvheto):
+	Added command-line option to compute the jet-veto cross section
+	rather than the efficiency
+
+	* src/matching.f90 (matching):
+	Added four matching schemes (R, modR, modRa, loga), to
+	investigate the impact of mass effects at higher orders. 
+	
+	* src/expansion.f90 (expanded_sigma): 
+	* src/resummation.f90 (resummed_sigma): 
+	* src/jetvheto.f90 (jetvheto): 
+	Added resummation for ptB up to NNLL
+	
+	* src/interpolation.f90 (interpolation):   *** ADDED ***
+	basic interpolation subroutines, for internal use only
+
+2013-06-05  Pier Francesco Monni  <pfmonni@sunflower.physik.uzh.ch>
+	* src/rad_tools.f90:
+	* src/jetvheto.f90:
+	* src/resummation.f90:
+	* src/expansion.f90:
+	* src/pdfs_tools.f90:
+	Implemented mass effects in both resummation and matching
+	to fixed-order as obtained with hnnlo-v2.0 (Grazzini et al.).
+
+	* src/jetvheto.f90:
+	Fixed bug in matching to N3LO fixed-order.
+
+	
+2013-05-22  Gavin SALAM  <salam@lpthe.jussieu.fr>
+
+	* src/banner.f90 (print_banner): 
+	fixed typo
+
+2013-03-21  Pier Francesco Monni  <pfmonni@sunflower.physik.uzh.ch>
+
+	* src/matching.f90:
+	Implemented  matching schemes to N3LO
+	New implementation of the scheme (c) at NNLO
+
+	* src/expansion.f90
+	* src/pdf_tools.f90:
+	Added expansion of luminosity factor to 2nd order.
+	To be used in the context of N3LO matching
+
+	* src/jetvheto.f90:
+	Added normalisation for efficiencies in schemes (c) and (d)
+	
+2013-03-19  Andrea Banfi  <banfi@macabanfi-2.local>
+
+	* src/expansion.f90 
+	* src/resummation.f90
+	* src/matching.f90
+	Changed size of dlumi_lumi_expanded to prepare the code for
+	matching to H+1jet@NNLO
+
+2013-01-03  Andrea Banfi  <banfi@macabanfi-2.local>
+
+	* src/mass_corr.f90 (f0b1): used f0b1_chaplin and f0b1_hplog
+	according to whether tau is less or larger than one. Only test
+	performed is that f0b1 agrees with fig. 5a of hep-ph/0509189
+
+	* Makefile (LDFLAGS): added -lchaplin, assuming it is installed in
+	the same directory where hoppet is installed
+
+2012-11-27  Gavin SALAM  <salam@lpthe.jussieu.fr>  + Giulia + Pier
+
+	* src/matching.f90 (fixed_order_schemes):
+	  added comments + extra check on size of sigma (it should be
+	  consistent with the order being used for Sigmabar array).
+
+	  fixed bug in fixed_order_schemes (scheme a) when length of the
+	  sigma array didn't match the number of fixed_orders in
+	  sigmabar. (Doesn't change results matched to NNLO).
+
+	* src/jetvheto.f90:
+	  extended sigma array to have an extra entry, to be ready for
+	  N3LO.
+
+	* scripts/run-checks.pl:
+	  added some comments;
+
+2012-10-11  Andrea Banfi  <banfi@macabanfi-2.local>
+
+	* src/matching.f90 (matching): 
+	  introduced new fixed order scheme "d" for matching to N^3LO, and
+	  modified matching schemes "a" and "b" to work with NLO only.
+
+	* src/jetvheto.f90 (jetvheto): 
+	  added fixed_order variable  (1=NLO, 2=NNLO, 3=N3LO), and used it
+	  to set the dimensions of the arrays passed to the match and
+	  fixed_order_schemes subroutines
+
+2012-08-15  Gavin SALAM  <salam@lpthe.jussieu.fr> + Pier + Giulia
+
+	* src/matching.f90 (matching_logR): 
+	  added comment that logR for NNLL is not tested (and looks erroneous).
+
+2012-08-06  Gavin SALAM  <salam@lpthe.jussieu.fr> + Andrea + Giulia
+
+	* scripts/tarit.sh:
+	  small changes to get correct paths in reminders about tagging
+	  and uploads to hepforge.
+
+	* src/jetvheto.f90:
+	  now output 3 digits for exponent (solves misformatting problem
+	  for very small numbers)
+
+	* scripts/run-checks.pl:
+	  reworked tolerances a little; added info about removal of
+	  temporary files.
+
+	* scripts/run-checks: *** REMOVED ***
+          now obsolete since we have the perl version
+
+2012-08-04  Giulia ZANDERIGHI  <g.zanderighi1@physics.ox.ac.uk> 
+	* scripts/run-checks.pl: *** ADDED ***
+	* Makefile:
+   	  modified make check 
+
+2012-08-03  Gavin Salam  <gsalam@macth69.cern.ch> + Andrea + Giulia
+
+	* src/banner.f90: *** ADDED ***
+	  added this even though it's automatically generated, so that if
+	  we ever check out and directly make a tarball, it will
+	  automatically have all needed files. (So the makefile code just
+	  serves to ensure it's up to date).
+
+	* Makefile: 
+	  solved issue with compilation of banner.f90
+
+2012-08-03  Andrea BANFI  <ab1040@physik.uni-freiburg.de>
+
+	* scripts/makebanner.pl
+	  Script that automatically generates banner.f90. Makefile changed
+	  accordingly
+	
+	* src/jetvheto.f90 (jetvheto): 
+	  Used banner.f90 to print out messages for header and help
+
+2012-08-03  Giulia ZANDERIGHI  <g.zanderighi1@physics.ox.ac.uk> 
+	* scripts/run-checks: *** ADDED ***
+	* Makefile:
+   	  added make check 
+
+
+2012-08-02  Gavin SALAM  <salam@lpthe.jussieu.fr> (later):
+
+	* scripts/tarit.sh: *** ADDED ***
+	* Makefile:
+	  changed "dist-gzip" to "dist" (as standard).
+	  it now runs scripts/tarit.sh, which handles version numbers and
+	  gives info about tagging etc. (to be updated once we have
+	  hepforge accounts).
+
+
+2012-08-02  Gavin SALAM  <salam@lpthe.jussieu.fr> + Andrea + Giulia
+
+
+	* src/jetvheto.f90:
+	  fixed an issue in the normalisation of the resummations, which
+	  was being taken at ptmax (the issue is irrelevant if ptmax was
+	  large, but led to nonsensical results when it was small).
+
+	  numerous other small changes mostly related to comments and
+	  code-readability.
+
+	* src/rad_tools.f90
+	* src/emsn_tools.f90
+	* src/resummation.f90
+	* src/coefficient_functions.f90
+	* src/pdfs_tools.f90
+	  added various comments, e.g. on action of certain subprograms
+	  and provenance of formulas
+
+	* ew_parameters.f90: *** ADDED ***
+	  a new file to contain these parameters
+
+	* src/opts_cmdline_cardfile.f90: *** ADDED ***
+	* src/reader.f90:
+	  sorted out comments + factorised out some code
+
+	* AUTHORS: *** ADDED ***
+	* COPYING: *** ADDED ***
+	* BUGS:    *** ADDED ***
+	  added GPLv3 notice + request to follow MCNet guidelines.
+
+2012-08-01  Andrea Banfi & Giulia Zanderighi
+	Second commit: 
+	* src/coefficient_functions.f90 
+	* src/pdf_tools.f90 	
+	renamed module coefficient_functions to coefficient_functions_VH 
+	to avoid conflicts with hoppet 
+	
+	First commit: 
+	* src/main_matching.f90 
+	  - added error message when no input is specfied for matching 
+	  - made NNLL resummation as default (rather than NLL) 
+	* src/emsn_tools.f90 
+	  - removed all MC calculation of R-dependent terms 
+	* src/random.f90 *** DELETED *** 
+	* src/rm48.f90 *** DELETED *** 
+
+	* Makefile 
+	  - adjusted for changes above 
+	  - added option to write module files with ifort 
+	  - clean up 
+	
+
+2012-07-30  Gavin Salam  <salam@lpthe.jussieu.fr>
+	
+	* Makefile:
+	* README: 
+	  arranged for these to use hoppet-config and lhapdf-config more
+	  directly; adapted README accordingly. Also adapted some
+	  dependences etc in view of the changes below
+
+	* src/types.f90:    *** DELETED ***
+	* src/consts.f90:   *** DELETED ***
+	* src/extra_consts.f90: *** ADDED ***
+	  removed two files whose contents are largely provided in
+	  hoppet and added an extra one to contain an additional pair of
+	  constants. 
+
+	* src/random.f90
+	* src/emsn_tools.f90
+	  renamed the random module random_rm48, to avoid potentially
+	  dangerous conflict with the default hoppet random module.
+
+	* ChangeLog: *** ADDED ***
+
+2012-00-00  Andrea Banfi, Pier Francesco Monni, Gavin Salam,  Giulia Zanderighi:
+	* work not documented in ChangeLog
+	

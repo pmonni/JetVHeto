@@ -1,1 +1,0 @@
-TMDQQBPlusBCQQBARNS=2*CF*(-CA + 2*CF)*Pi**3*x

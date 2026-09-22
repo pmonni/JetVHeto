@@ -1,1 +1,0 @@
-TMDQQPlusBCAsymQQCACF=FortranForm(-2*CA*CF*Pi**3)

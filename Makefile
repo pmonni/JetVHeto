@@ -1,71 +1,111 @@
-# GNU Make / GNU Fortran. External dependencies are never downloaded implicitly.
-.DEFAULT_GOAL := all
-ifeq ($(origin FC),default)
+
+# edit the following two lines if lhapdf-config and hoppet-config are
+# not in your path
+LHAPDF_CONFIG="lhapdf-config"
+HOPPET_CONFIG="hoppet-config"
+
+# location where modules will be stored
+MODULEPATH = $(PWD)/modules
+
+# default fortran compiler
 FC = gfortran
-endif
-PYTHON ?= python3
-HOPPET_CONFIG ?= hoppet-config
-LHAPDF_CONFIG ?= lhapdf-config
-CHAPLIN_LIBS ?= -lchaplin
-FFLAGS ?= -O2 -fPIC -ffree-line-length-none -fallow-argument-mismatch
-LDFLAGS ?=
-PDF_SET ?= NNPDF40_nnlo_as_01180
-BUILD := build
-MODDIR := $(BUILD)/mod
-OBJDIR := $(BUILD)/obj
-SOURCES := $(wildcard src/*.f90) $(wildcard src/*.f)
-OBJECTS := $(patsubst src/%.f90,$(OBJDIR)/%.o,$(filter %.f90,$(SOURCES))) $(patsubst src/%.f,$(OBJDIR)/%.o,$(filter %.f,$(SOURCES)))
-LIBOBJECTS := $(filter-out $(OBJDIR)/jetvheto.o,$(OBJECTS))
-INCLUDES = -J$(MODDIR) -I$(MODDIR) -Isrc -Idata/TMDs_ptj $(shell $(HOPPET_CONFIG) --fflags)
-LIBS = $(shell $(HOPPET_CONFIG) --ldflags) $(shell $(LHAPDF_CONFIG) --ldflags) $(CHAPLIN_LIBS)
-TESTS := rad radiator coefficients prefactor n3ll profile
-
-.PHONY: all check check-fast check-full check-cli check-algebra regenerate-rad clean dist
-all: jetvheto
-
-$(BUILD)/dependencies.mk: scripts/fortran_dependencies.py $(SOURCES) Makefile
-	mkdir -p $(BUILD)
-	$(PYTHON) scripts/fortran_dependencies.py $(SOURCES) > $@
-ifneq ($(filter clean dist,$(MAKECMDGOALS)),)
+# store modules
+FFLAGS = -O2 -fPIC 
+# The option that causes modules to be stored in the $(MODULEPATH) directory
+# depends on the compiler. Here it's provided for gfortran and ifort.  
+ifeq ("$(FC)","gfortran")	
+INCLUDE= -J$(MODULEPATH) -I$(MODULEPATH) `$(HOPPET_CONFIG) --fflags`
+else 
+ifeq ("$(FC)","ifort")
+INCLUDE= -module $(MODULEPATH) -I$(MODULEPATH) `$(HOPPET_CONFIG) --fflags`
 else
--include $(BUILD)/dependencies.mk
+INCLUDE= -I. `$(HOPPET_CONFIG) --fflags`
+endif
 endif
 
-$(OBJDIR) $(MODDIR):
-	mkdir -p $@
-$(OBJDIR)/%.o: src/%.f90 | $(OBJDIR) $(MODDIR)
-	$(FC) $(FFLAGS) $(INCLUDES) -c $< -o $@
-$(OBJDIR)/%.o: src/%.f | $(OBJDIR) $(MODDIR)
-	$(FC) $(FFLAGS) $(INCLUDES) -c $< -o $@
-$(OBJDIR)/rapidity_n3ll.o: src/rad_grid.inc
-$(OBJDIR)/coefficient_functions_deltaptj.o: $(wildcard data/TMDs_ptj/*.txt)
-jetvheto: $(OBJECTS)
-	$(FC) $(FFLAGS) $(LDFLAGS) -o $@ $(OBJECTS) $(LIBS)
+LIBS = `$(HOPPET_CONFIG) --ldflags` `$(LHAPDF_CONFIG) --ldflags`
 
-tests/test_%: tests/test_%.f90 $(LIBOBJECTS)
-	$(FC) $(FFLAGS) $(INCLUDES) $(LDFLAGS) $< $(LIBOBJECTS) $(LIBS) -o $@
-check-fast: $(addprefix tests/test_,$(filter-out n3ll profile,$(TESTS)))
-	./tests/test_rad
-	$(PYTHON) tests/test_rad_import.py
-	./tests/test_radiator
-	./tests/test_coefficients data/TMDs_ptj
-	./tests/test_prefactor
-check-full: check-fast tests/test_n3ll tests/test_profile tests/test_small_r
-	./tests/test_n3ll data/TMDs_ptj $(PDF_SET)
-	./tests/test_profile data/TMDs_ptj $(PDF_SET)
-	./tests/test_small_r $(PDF_SET)
-	./tests/test_small_r $(PDF_SET) DY
-check-cli: jetvheto
-	PDF_SET=$(PDF_SET) $(PYTHON) tests/test_cli.py
-	PDF_SET=$(PDF_SET) $(PYTHON) tests/test_anew_orders.py
-	PDF_SET=$(PDF_SET) $(PYTHON) tests/test_rapidity_truncation.py
-	PDF_SET=$(PDF_SET) $(PYTHON) tests/test_small_r_cli.py
-check: check-full check-cli
-check-algebra:
-	$(PYTHON) tests/check_rapidity_truncation_algebra.py
-regenerate-rad:
-	$(PYTHON) scripts/import_rad.py data/RapidityAnomalousDimension.wl src/rad_grid.inc
-dist:
-	$(PYTHON) scripts/package_source.py
+CHAPLIN=${HOME}/lib
+#CHAPLIN=${HOME}/software/chaplin-1.2-install/lib 
+LDFLAGS = -L$(CHAPLIN) -lchaplin
+
+# select between smallR version of the code and the svn one
+SOURCEDIR  = $(PWD)/src
+
+VPATH      = $(SOURCEDIR):$(PWD)/obj
+
+ALLPROG = jetvheto
+
+ALLPROGOBJ = jetvheto.o
+
+SRCS =	coefficient_functions.f90 ew_parameters.f90 emsn_tools.f90 \
+	expansion.f90 io_utils.f90 lcl_dec.f90 matching.f90 \
+	opts_cmdline_cardfile.f90 pdfs_tools.f90 rad_tools.f90 reader.f90 \
+	resummation.f90 banner.f90 mass_corr.f90 interpolation.f90
+
+POSTSRCS =	
+
+OBJS =	coefficient_functions.o ew_parameters.o emsn_tools.o expansion.o \
+	io_utils.o lcl_dec.o matching.o opts_cmdline_cardfile.o pdfs_tools.o \
+	rad_tools.o reader.o resummation.o banner.o mass_corr.o interpolation.o
+
+#TARFILES = JetZHeto/JetZHeto.tar.gz JetZHeto
+#EXCLUDE = JetZHeto/.exclude-files
+
+
+
+ALLOBJS = $(ALLPROGOBJ) $(OBJS) 
+
+all: $(ALLPROG)
+
+ALL:  $(ALLPROG)
+
+jetvheto:  $(ALLOBJS)
+	$(FC)  -o $@ $(patsubst %,obj/%,$(ALLOBJS)) $(LIBS) $(LDFLAGS)
+
+check: $(ALLOBJS) jetvheto  
+	scripts/run-checks.pl 
+
+libclean:
+	rm -f   obj/*.o  
+
 clean:
-	$(PYTHON) scripts/clean_build.py
+	rm -f   obj/*.o  modules/*.mod *.d
+
+distclean: clean
+	rm -f  $(ALLPROG)
+
+dist: src/banner.f90
+	scripts/tarit.sh
+
+.SUFFIXES: $(SUFFIXES) .f90
+
+%.o: %.f90 
+	$(FC) $(FFLAGS) $(INCLUDE) -c -o obj/$@ $<
+
+%.o: %.f
+	$(FC) $(FFLAGS) $(INCLUDE) -c -o obj/$@ $<
+
+# a couple of lines to help with the combination of automatic
+# generation of banner.f90 and the multi-directory build.
+src/banner.f90: README scripts/makebanner.pl
+	scripts/makebanner.pl $< $@
+banner.o: src/banner.f90 
+	$(FC) $(FFLAGS) $(INCLUDE) -c -o obj/$@ $<
+
+coefficient_functions.o: 
+ew_parameters.o: 
+emsn_tools.o: rad_tools.o
+expansion.o: emsn_tools.o pdfs_tools.o rad_tools.o
+io_utils.o: 
+jetvheto.o: ew_parameters.o expansion.o io_utils.o matching.o \
+	opts_cmdline_cardfile.o pdfs_tools.o rad_tools.o reader.o \
+	resummation.o banner.o mass_corr.o interpolation.o
+matching.o: pdfs_tools.o rad_tools.o
+opts_cmdline_cardfile.o: io_utils.o reader.o
+pdfs_tools.o: coefficient_functions.o rad_tools.o ew_parameters.o
+rad_tools.o: ew_parameters.o mass_corr.o
+reader.o: io_utils.o
+resummation.o: emsn_tools.o pdfs_tools.o rad_tools.o
+mass_corr.o: ew_parameters.o
+interpolation.o:

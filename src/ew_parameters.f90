@@ -17,8 +17,9 @@ module ew_parameters
                                               & gv2_ga2_d, gv2_ga2_u,&
                                               & gv2_ga2_d, gv2_ga2_u /)
   real(dp), parameter, public :: mb = 4.75   ! from PDG 2012
-  real(dp), parameter, public :: mt = 173.1_dp  ! RadISH default top mass [GeV]
+  real(dp), parameter, public :: mt = 172.5  ! from PDG 2012
 
 !  real(dp), parameter, public :: mb = 4.65   ! from PDG 2012
 !  real(dp), parameter, public :: mt = 173.5  ! from PDG 2012
 end module ew_parameters
+

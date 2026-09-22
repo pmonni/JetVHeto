@@ -1,0 +1,19 @@
+The following is not strictly speaking a bug (rather an artefact), but may look like
+one:
+
+At high pt one may observe efficiencies that are larger than 1. There
+can be several reasons for this unphysical behaviour:
+
+1) some matching schemes do this (e.g. scheme c), and this is visible 
+   even in scheme c fixed-order results
+
+2) the logarithm used currently in JetVHeto does not quite vanish for
+   pt > sqrt(s)/2. This leads to artefact for pt's near the kinematic
+   limit. This could be straightforwardly by an appropriate
+   redefinition of the logarithm.
+
+3) fixed-order results are understood to be using a fixed scale
+   muR \simeq muF \sim m_{boson}. This makes no sense at high pt, and
+   leads to problems in all matching schemes, and in the pure
+   fixed-order results.
+ 

@@ -6,27 +6,9 @@ module opts_cmdline_cardfile
   
   private 
   public :: dble_val_opts_or_cmdline, int_val_opts_or_cmdline, string_val_opts_or_cmdline
-  public :: var_or_xVar
-  public :: path_val_opt
+  public :: var_or_xVar 
 
 contains
-  ! Preserve long path arguments: legacy HOPPET string_val_opt has a short
-  ! fixed-length return buffer. Still call it to register argument consumption.
-  function path_val_opt(opt,default) result(value)
-    character(len=*), intent(in) :: opt,default
-    character(len=4096) :: value,arg
-    integer :: i,status,n
-    value=string_val_opt(opt,default)
-    do i=1,command_argument_count()-1
-      call get_command_argument(i,arg,status=status)
-      if(status/=0) cycle
-      if(trim(arg)/=opt) cycle
-      call get_command_argument(i+1,value,length=n,status=status)
-      if(status/=0.or.n>len(value)) error stop 'Path argument exceeds supported length'
-      return
-    enddo
-  end function path_val_opt
-
   ! reads an option named opt_name from the "opts" objects (which
   ! comes from a cardfile), or from the command line (it should then
   ! be -opt_name).

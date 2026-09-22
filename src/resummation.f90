@@ -6,8 +6,6 @@ module resummation
   use emsn_tools
   use ew_parameters; use mass_corr
   use special_functions 
-  use modified_logs, only: profile_point
-  use jetveto_n3ll, only: resum_jetveto_n3ll
   implicit none
 
   private
@@ -15,7 +13,7 @@ module resummation
 
 contains
   !======================================================================
-  recursive function resummed_sigma(pt, cs, order,dlumi_lumi) result(sigma)
+  function resummed_sigma(pt, cs, order,dlumi_lumi) result(sigma)
     real(dp),                  intent(in) :: pt(:)
     type(process_and_parameters), intent(in) :: cs
     integer,                   intent(in) :: order
@@ -26,49 +24,11 @@ contains
          &lNNLL(size(pt)), dlNLL(size(pt))
     real(dp) :: normalisation
     real(dp) :: rp(size(pt)),rs(size(pt)),resum_fact(size(pt)),drp(size(pt))
+    real(dp) :: av_lnz(size(pt)), av_ln2z(size(pt)), as2pi_pt(size(pt)), non_incl_largeR(size(pt))
     integer :: i 
     real(dp) :: tmp(size(pt))
-    type(process_and_parameters) :: local
-    real(dp) :: evalpt(1),localdl(1),localL(1),fjet,radlocal(1)
     
 
-    call validate_small_r(cs,order)
-    if(order==order_N3LL) then
-       sigma=resum_jetveto_n3ll(pt,cs,dlumi_lumi)
-       return
-    end if
-    if(cs%use_new_modlog.or.cs%matching_anew) then
-       ! anew: complete evolved luminosity P, with F outside matching.
-       do i=1,size(pt)
-          if(cs%use_new_modlog) then
-             call profile_point(cs,pt(i),local,evalpt)
-          else
-             local=cs;evalpt=pt(i)
-          endif
-          local%matching_anew=.false.
-          sigma(i:i)=resummed_sigma(evalpt,local,order,localdl)
-          localL=Ltilde(evalpt/local%Q,local%p)
-          fjet=0
-          if(order==order_NNLL) then
-             tmp(1:1)=get_lambda(localL,local)
-             radlocal=Rad_p(tmp(1:1))
-             fjet=non_incl(local%jet_radius,'all')*radlocal(1)*two*local%as2pi/(1-two*tmp(1))
-             if(local%small_r) then
-                ! The recursive result already contains the full small-R
-                ! factor. Remove it only when extracting P for anew.
-                radlocal=small_r_factor(tmp(1:1),local)
-                fjet=log(radlocal(1))
-             else
-                ! exp(F2) and 1+F2 have identical expansions through a^3.
-                sigma(i)=sigma(i)*exp(fjet)/(1+fjet)
-             endif
-          endif
-          radlocal=Rad(localL,local,order)
-          if(present(dlumi_lumi)) dlumi_lumi(i)=sigma(i)/exp(radlocal(1)+fjet)/lumi_LL(local)-1
-       enddo
-       call init_proc(cs)
-       return
-    endif
     L_tilde = Ltilde(pt/cs%Q, cs%p)
     lambda  = get_lambda(L_tilde, cs)
 
@@ -102,7 +62,34 @@ contains
        if (cs%observable == 'ptj') then 
 
           if (cs%small_r) then
-             sigma = sigma * small_r_factor(lambda,cs)
+             ! - Added by FD -
+             ! get the all-order result
+             as2pi_pt = cs%as2pi/(one-two*lambda)
+             ! for ln R resummation, calculate b0 and t
+             ! b0 = (11.*ca_def-2.*nf_def)/6.
+             ! t = log(1/(1-as2pi_pt*b0*log(1/(cs%jet_radius**2))/(2.*pi)))/b0
+             av_lnz = av_lnz_smallR(as2pi_pt,cs%jet_radius,cs%small_r_R0)
+             ! subtract lnR term at O(as) from non-inclusive correction
+             non_incl_largeR = as2pi_pt*(non_incl(cs%jet_radius,'all') - &
+                  & non_incl_lnR(cs%jet_radius,cs%small_r_R0))
+             ! include the non-inclusive correction
+             ! this should be checked carefully
+             sigma = sigma * (exp(-Rad_p(lambda)*av_lnz) + &
+                  & Rad_p(lambda)*two*non_incl_largeR)
+             ! sigma = sigma * (1 - Rad_p(lambda)*av_lnz + &
+             !      & Rad_p(lambda)*two*non_incl_largeR)
+
+             if (cs%small_r_ln2z) then
+                ! extra subleading terms: MD & GPS temporary investigations (2015-02-16)
+                av_ln2z = av_ln2z_smallR(as2pi_pt,cs%jet_radius,cs%small_r_R0)
+                !
+                ! fix a normalisation so as not to change results at large pt
+                tmp(1:1) = exp(-A(1)*cs%as2pi*two &
+                     &          * av_ln2z_smallR((/cs%as2pi/),cs%jet_radius,cs%small_r_R0))
+                ! put it together
+                sigma = sigma * exp(-A(1)*as2pi_pt*two * av_ln2z) / tmp(1)
+                
+             end if
           else
              ! - Original code -
              sigma = sigma * (1 + &

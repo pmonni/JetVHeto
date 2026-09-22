@@ -1,0 +1,107 @@
+# ./combine-runs.pl runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-100.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-10.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-11.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-12.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-13.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-14.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-15.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-16.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-17.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-18.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-19.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-1.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-20.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-21.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-22.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-23.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-24.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-25.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-26.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-27.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-28.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-29.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-2.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-30.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-31.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-32.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-33.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-34.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-35.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-36.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-37.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-38.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-39.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-3.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-40.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-41.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-42.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-43.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-44.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-45.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-46.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-47.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-48.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-49.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-4.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-50.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-51.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-52.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-53.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-54.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-55.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-56.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-57.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-58.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-59.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-5.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-60.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-61.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-62.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-63.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-64.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-65.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-66.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-67.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-68.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-69.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-6.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-70.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-71.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-72.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-73.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-74.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-75.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-76.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-77.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-78.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-79.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-7.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-80.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-81.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-82.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-83.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-84.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-85.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-86.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-87.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-88.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-89.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-8.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-90.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-91.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-92.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-93.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-94.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-95.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-96.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-97.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-98.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-99.fxd runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-9.fxd
+# until occurrence of 'nev', comments that follow are from first file
+# combined nev = 1000000000
+proc = H
+collider = pp
+sqrts = 8000
+pdf_name = MSTW2008nnlo68cl.LHgrid
+loop-mass = none 
+M = 125
+mur = 125
+muf = 125
+R = 0.5
+#--------------------
+# cross sections [nb]
+xsct_lo = 0.0056350002551601
+delta_xsct_nlo = 0.007170427832091
+delta_xsct_nnlo = 0.0044584128918535
+#----------------------------------
+# Born results taken from runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-lo-100.top
+# NLO results taken from runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-lo-100.top
+# NNLO results taken from runs-7-scales-mt-infinity-R0.5/H125-xmur-1.0-xmuf-1.0-R-0.5-lo-100.top
+# pt(binmax) [GeV] sigmabar^(1) [nb] sigmabar^(2) [nb]
+0.930822883866 -0.024809693177505 0.012028928120021
+1.02871838113 -0.023786672477505 0.00948523152001991
+1.13690963771 -0.022787598067505 0.0072262783200199
+1.25647946808 -0.021812633487505 0.0052016335000199
+1.38862456728 -0.020861773357505 0.0034219820720199
+1.53466748788 -0.019934497467505 0.0018105938420199
+1.69606987653 -0.019031134997505 0.00040982767202019
+1.87444710256 -0.018151681547505 -0.00082755752797978
+2.07158442521999 -0.017296060327505 -0.0018761748652601
+2.28945486109 -0.016464290267505 -0.0027976266558601
+2.53023893073 -0.015656122367505 -0.0035864943340901
+2.79634648202 -0.014871707987505 -0.0042763784264201
+3.09044080879 -0.014110756967505 -0.0047942493864201
+3.41546530591 -0.013373352817505 -0.0052528525044201
+3.77467292779001 -0.012659316067505 -0.0055905482744201
+4.17165874504 -0.011968608427505 -0.0058444327944201
+4.61039592515999 -0.011301026557505 -0.0060333287544201
+5.0952754973 -0.010656584257505 -0.00611988547442009
+5.63115029919001 -0.010034732097505 -0.0061756666644201
+6.22338354597998 -0.0094356293775 -0.0061626432944201
+6.87790250705001 -0.0088591943975 -0.0060905327344201
+7.60125782814999 -0.0083047388375 -0.0059681336514201
+8.40068909246998 -0.0077724186275 -0.0058279701914201
+9.28419727679002 -0.0072618434675 -0.0056410717114201
+10.260624828 -0.0067727483075 -0.0054404219014201
+11.3397441612 -0.0063044858775 -0.0052003346214201
+12.5323554654 -0.0058569570575 -0.0049517333114201
+13.8503947953 -0.0054297596175 -0.0046833842814201
+15.3070535316 -0.0050223585375 -0.0044130776514201
+16.9169104046 -0.0046344089275 -0.0041323500214201
+18.6960774028 -0.0042653903175 -0.0038465040314201
+20.6623610277 -0.0039150401875 -0.0035657353114201
+22.8354405066 -0.0035826873275 -0.0032776948514201
+25.2370647493 -0.0032678719875 -0.0029926758214201
+27.8912700186001 -0.0029701522175 -0.0027225696814201
+30.8246204926999 -0.0026892226575 -0.0024565833914201
+34.0664741292999 -0.0024245709675 -0.0022020570014201
+37.649276489 -0.0021760003675 -0.0019585052414201
+41.6088854623001 -0.0019430856875 -0.0017284134514201
+45.9849301464 -0.0017255000075 -0.0015139746214201
+50.8212074676 -0.0015231874975 -0.0013092981014201
+56.1661205147001 -0.0013358815675 -0.0011255308714201
+62.0731629738999 -0.0011634226375 -0.00095470723141978
+68.6014545117998 -0.0010055186375 -0.00080084660141976
+75.8163324641 -0.00086215856749972 -0.00066623315141976
+83.7900057544999 -0.00073289096749972 -0.00054545834141976
+92.6022775852 -0.00061730486749973 -0.00044185163141976
+102.341344135 -0.00051499088749973 -0.00035104546141976
+113.104677254 -0.00042536396949973 -0.00027496302241976
+125 -0.00034768492149973 -0.00021152476041976
+138.146364759 -0.00028114672549973 -0.00015997972041976
+152.67534477 -0.00022480192649974 -0.000117421194419756
+168.732350947 -0.00017768233049974 -8.6014951419789e-05
+186.478087205 -0.00013877341349974 -6.1082850419794e-05
+206.090158838 -0.00010706535849974 -4.1813413419794e-05
+227.764850049 -8.156369149975e-05 -2.8260767419794e-05
+251.719088434 -6.131690849975e-05 -1.8056858419794e-05
+278.192616062 -4.546671549975e-05 -1.09655154197945e-05
+307.450388895001 -3.322400049975e-05 -6.4490622197977e-06
+339.785228557001 -2.390725129975e-05 -3.1247961197978e-06
+375.520752992999 -1.692485019975e-05 -1.26207351979788e-06
+415.014615342 -1.177180529975e-05 -3.65682109796827e-07
+458.662083452001 -8.0336768997477e-06 3.67697140202823e-07
+506.899995856 -5.3695268997477e-06 5.7972834020277e-07
+560.211133791999 -3.5069636997477e-06 6.27064160202873e-07
+619.129053048999 -2.2332670997477e-06 5.352224402028e-07
+684.243423966 -1.3827131197477e-06 4.252355022028e-07
+756.205933052001 -8.2903432974779e-07 3.116028922028e-07
+835.736805284999 -4.7946461974779e-07 2.147626582028e-07
+923.632012366001 -2.6594972974779e-07 1.383117182028e-07
+1020.77123907 -1.4054815974779e-07 8.4808723202763e-08
+1128.12668743 -7.0225563747796e-08 4.797689360276e-08
+1246.77280685 -3.2814992747796e-08 2.526190195276e-08
+1377.89704758 -1.4152403747796e-08 1.21274868027599e-08
+1522.81174509 -5.5352015478011e-09 5.281854915761e-09
+1682.96725438 -1.9188309478011e-09 2.035058975461e-09
+1859.96646561 -5.7118624780063e-10 6.772864513608e-10
+2055.58084639 -1.3964231780063e-10 1.7995965246087e-10
+2271.76817118 -2.6279257800573e-11 3.6587667580843e-11
+2510.6921154 -3.4444078005706e-12 5.2155454808417e-12
+2774.74391018 -2.6867860057103e-13 4.6047376084236e-13
+3066.56627463999 -9.98997057103e-15 1.932295564236e-14
+3389.07986508 -1.6175797103e-16 3.7483724236e-16
+3745.51250592001 -3.7795103e-19 1.11604636e-18
+4139.43149483999 -6.0134700188033e-161 -1.39973399105e-83

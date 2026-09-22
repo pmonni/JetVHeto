@@ -4,9 +4,6 @@ module expansion
   use pdfs_tools; use pdf_expansions
   use hoppet_v1 
   use ew_parameters; use mass_corr
-  use modified_logs, only: profile_point
-  use jetveto_n3ll, only: expand_jetveto_n3ll
-  use radiator_n3ll, only: radiator_expansion
   
   implicit none
 
@@ -16,7 +13,7 @@ module expansion
 contains
 
   !======================================================================
-  recursive function expanded_sigma(pt, cs, order,matching_scheme,dlumi_lumi_expanded) result(res)
+  function expanded_sigma(pt, cs, order,matching_scheme,dlumi_lumi_expanded) result(res)
     real(dp),                  intent(in) :: pt(:)
     type(process_and_parameters), intent(in) :: cs
     integer,                   intent(in) :: order !(0=LL,1=NLL,2=NNLL)
@@ -38,55 +35,8 @@ contains
     type(LumiExpansion)      :: lumie
     type(LumiExpansion_at_x) :: lumi
     real(dp)                 :: u 
-    type(process_and_parameters) :: local
-    real(dp) :: evalpt(1),localdl(2,1),an(4),bn(3),betas(0:3),sexp(3),born,aa,loglocal
-    integer :: ibin
 
-    call validate_small_r(cs,order)
     if (present(dlumi_lumi_expanded)) dlumi_lumi_expanded = zero
-    if(order==order_N3LL) then
-       if(trim(matching_scheme)/='a'.and.trim(matching_scheme)/='anew') error stop 'Only anew matching is supported'
-       res=expand_jetveto_n3ll(pt,cs,dlumi_lumi_expanded)
-       return
-    end if
-    if(cs%use_new_modlog.or.cs%matching_anew) then
-       do ibin=1,size(pt)
-          if(cs%use_new_modlog) then
-             call profile_point(cs,pt(ibin),local,evalpt)
-          else
-             local=cs;evalpt=pt(ibin)
-          endif
-          local%matching_anew=.false.
-          res(:,ibin:ibin)=expanded_sigma(evalpt,local,order,matching_scheme,localdl)
-          an=0;bn=0;betas=0
-          an(1:3)=A(1:3);bn(1:2)=B(1:2)
-          betas(0)=beta0;betas(1)=beta1
-          if(order==order_NLL) bn(2)=0
-          block
-             real(dp) :: ll(1)
-             ll=Ltilde(evalpt/local%Q,local%p);loglocal=ll(1)
-          end block
-          aa=local%as2pi
-          sexp=radiator_expansion(loglocal,an,bn,betas,local%ln_Q2_M2,local%ln_Q2_muR2)
-          if(order<=order_NLL) then
-             ! Expansion of L*g1+g2: no spurious NNLL a^2*L term.
-             sexp(2)=-16*pi*beta0*A(1)*loglocal**3/3
-             if(order==order_NLL) sexp(2)=sexp(2)+loglocal**2* &
-                (-2*A(2)+4*pi*beta0*(A(1)*(local%ln_Q2_M2+local%ln_Q2_muR2)-B(1)))
-             if(order==order_LL) sexp(1)=-2*A(1)*loglocal**2
-          endif
-          born=lumi_LL(local)
-          if(present(dlumi_lumi_expanded)) then
-             dlumi_lumi_expanded(1,ibin)=res(1,ibin)/born-aa*sexp(1)
-             dlumi_lumi_expanded(2,ibin)=res(2,ibin)/born-aa*sexp(1)*res(1,ibin)/born &
-                +aa**2*(sexp(1)**2/2-sexp(2))
-             if(order==order_NNLL) dlumi_lumi_expanded(2,ibin)=dlumi_lumi_expanded(2,ibin) &
-                -aa**2*8*A(1)*non_incl(local%jet_radius,'all')*loglocal
-          endif
-       enddo
-       call init_proc(cs)
-       return
-    endif
 
     L = Ltilde(pt/cs%Q, cs%p)
     
