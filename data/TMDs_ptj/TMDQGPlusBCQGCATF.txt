@@ -1,0 +1,1 @@
+TMDQGPlusBCQGCATF=-2*CA*Pi**3*TR*x

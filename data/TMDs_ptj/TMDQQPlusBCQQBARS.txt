@@ -1,0 +1,1 @@
+TMDQQPlusBCQQBARS=-2*CF*Pi**3*TR*x

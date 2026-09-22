@@ -1,0 +1,1 @@
+TMDGQPlusBCGQCFCF=-2*CF**2*Pi**3*x
