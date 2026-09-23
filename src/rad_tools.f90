@@ -243,7 +243,6 @@ contains
        Z = one
        res = 1/p*log(1/v**p+1)*Z 
     else
-       write(0,*) 'Warning: using unmodified logarithm'
        res = log(1/v)
     end if
     
