@@ -1,8 +1,8 @@
 # JetVHeto 4.0.0
 
-A Fortran code for the calculation of jet-veto cross sections in 
-colour-singlet production, extending JetVHeto 3.0.0 to N3LL 
-resummation with NLO, NNLO or N3LO fixed-order matching.
+A Fortran code for the calculation of jet-veto cross sections and 
+efficiencies in colour-singlet production, extending JetVHeto 3.0.0 
+to N3LL resummation with NLO, NNLO or N3LO fixed-order matching.
 
 ## Example
 
@@ -19,19 +19,19 @@ source directory, run:
 This produces an N3LL+N3LO Higgs jet-veto prediction at 13.6 TeV, with
 M=125 GeV and R=0.4, using the supplied HEFT fixed-order input. Output columns
 are veto momentum [GeV], matched, resummed and fixed-order cross sections
-[nb]. Input-card cross sections must also be in nb. For other predictions,
+[nb]. Input-card cross sections must also be converted into nb. For other predictions,
 supply fixed-order inputs with the appropriate process, PDF, scales, radius
 and jet algorithm; do not change these independently of the input calculation.
-
-N3LL requires `-loop-mass none` (the default). At NNLL (`-order 2`), optional
-small-R resummation is enabled by `-small-r -R0 1.0`; it is not available at
-N3LL.
 
 Running the command line
 
 python3 scripts/reproduce_figures.py --input-dir inputs --output-dir outputs
 
 creates a directory outputs/ containing the plots of Ref. XXXX.XXXX.
+
+N3LL requires `-loop-mass none` (the default). At NNLL (`-order 2`), optional
+small-R resummation is enabled by `-small-r -R0 1.0`; it is not available at
+N3LL.
 
 ## References to cite
 
