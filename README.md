@@ -27,13 +27,18 @@ N3LL requires `-loop-mass none` (the default). At NNLL (`-order 2`), optional
 small-R resummation is enabled by `-small-r -R0 1.0`; it is not available at
 N3LL.
 
+Running the command line
+
+python3 scripts/reproduce_figures.py --input-dir inputs --output-dir outputs
+
+creates a directory outputs/ containing the plots of Ref. XXXX.XXXX.
+
 ## References to cite
 
-For public scientific work using this code, cite the original JetVHeto
-papers and the references relevant to the ingredients and options used.
-Also identify the code version or source revision used for the results.
+For public scientific work using this code, cite the original references 
+relevant to the ingredients and options used.
 
-### N3LL ingredients implemented starting from version 4.0.0
+### For N3LL predictions implemented starting from version 4.0.0
 
 - S. Abreu, J. R. Gaunt, P. F. Monni, L. Rottoli, R. Szafron
   *Third-Order Logarithmic Resummation for Jet-Vetoed Higgs Production*:
@@ -49,7 +54,7 @@ Also identify the code version or source revision used for the results.
   **citation and associated data-deposit DOI/version to be supplied by the authors**.
 
 
-### Original work on the JetVHeto code
+### For NNLL predictions, cite original work on the JetVHeto code
 
 - A. Banfi, P. F. Monni, G. P. Salam and G. Zanderighi,
   *Higgs and Z-boson production with a jet veto*,
