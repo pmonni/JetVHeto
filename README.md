@@ -16,6 +16,11 @@ source directory, run:
   -new_modlog -xM 0.5 -out matched.dat
 ```
 
+Alternatively, missing dependencies can be installed automatically using `cmake`.
+Build with `mkdir cmake-build && cd cmake-build && cmake .. && make -j`.
+Run the same command as above from the build directory after installing the
+`NNPDF40_nnlo_as_01180` PDF set.
+
 This produces an N3LL+N3LO Higgs jet-veto prediction at 13.6 TeV, with
 M=125 GeV and R=0.4, using the supplied HEFT fixed-order input. Output columns
 are veto momentum [GeV], matched, resummed and fixed-order cross sections
