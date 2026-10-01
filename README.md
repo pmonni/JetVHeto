@@ -83,8 +83,8 @@ relevant to the ingredients and options used.
 
 - **NNLOJET** A. Huss et al., 
   [arXiv:2503.22804](https://arxiv.org/abs/2503.22804).
-- **HOPPET:** G. P. Salam and J. Rojo,
-  [arXiv:0804.3755](https://arxiv.org/abs/0804.3755).
+- **HOPPET:** A. Karlberg, P. Nason, G. P. Salam, G. Zanderighi, F. Dreyer,
+  [arXiv:2510.09310](https://arxiv.org/abs/2510.09310).
 - **LHAPDF 6:** A. Buckley et al.,
   [arXiv:1412.7420](https://arxiv.org/abs/1412.7420).
 - **Harmonic polylogarithms and HPL:** E. Remiddi and J. A. M. Vermaseren,
