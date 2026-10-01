@@ -10,12 +10,10 @@ are standard for Monte Carlo event generators
 this code as part of work towards a scientific publication you should
 cite the following articles:
 
-For version 3.0.0 and earlier versions
-
   Phys. Rev. Lett. 109 (2012) 202001 [arXiv:1206.4998],
   JHEP 04 (2016) 049 [arXiv:1511.02886]
 
-and, for version 4.0.0 and later versions
+and, for version 4.0.0 and later versions, also
 
   arXiv:XXXX.XXXX
 
