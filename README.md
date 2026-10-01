@@ -40,6 +40,9 @@ N3LL requires `-loop-mass none` (the default). At NNLL (`-order 2`), optional
 small-R resummation is enabled by `-small-r -R0 1.0`; it is not available at
 N3LL.
 
+The previous release of the JetVHeto code can be found in a branch of the
+present repository (git checkout jetvheto-3.0.0).
+
 ## References to cite
 
 For public scientific work using this code, cite the original references 
