@@ -7,8 +7,17 @@ to N3LL resummation with NLO, NNLO or N3LO fixed-order matching.
 ## Example
 
 Build with `make -j` after installing GNU Fortran, HOPPET, LHAPDF 6 and
-CHAPLIN. Install the `NNPDF40_nnlo_as_01180` PDF set for this example. From the
-source directory, run:
+CHAPLIN. Install the `NNPDF40_nnlo_as_01180` PDF set for this example by
+executing the command
+
+```sh
+cd `lhapdf-config --datadir`
+curl -O https://lhapdfsets.web.cern.ch/current/NNPDF40_nnlo_as_01180.tar.gz
+tar xzf NNPDF40_nnlo_as_01180.tar.gz
+rm NNPDF40_nnlo_as_01180.tar.gz
+```
+
+From the source directory, run:
 
 ```sh
 ./jetvheto -in inputs/ptj1_xmuR_0.5_xmuF_0.5_xQ_0.5.fxd \
@@ -19,7 +28,14 @@ source directory, run:
 Alternatively, missing dependencies can be installed automatically using `cmake`.
 Build with `mkdir cmake-build && cd cmake-build && cmake .. && make -j`.
 Run the same command as above from the build directory after installing the
-`NNPDF40_nnlo_as_01180` PDF set.
+`NNPDF40_nnlo_as_01180` PDF set as
+
+```sh
+cd cmake-build/external/share/LHAPDF
+curl -O https://lhapdfsets.web.cern.ch/current/NNPDF40_nnlo_as_01180.tar.gz
+tar xzf NNPDF40_nnlo_as_01180.tar.gz
+rm NNPDF40_nnlo_as_01180.tar.gz
+```
 
 This produces an N3LL+N3LO Higgs jet-veto prediction at 13.6 TeV, with
 M=125 GeV and R=0.4, using the supplied HEFT fixed-order input. Output columns
@@ -30,11 +46,12 @@ and jet algorithm; do not change these independently of the input calculation.
 
 Running the command line
 
+```sh
 python3 scripts/reproduce_figures.py --input-dir inputs --output-dir outputs
-
+```
 creates a directory outputs/ containing the plots of Ref. XXXX.XXXX. 
-Execute this command within the cmake-build folder in case you opted 
-to use cmake to compile the code.
+Execute this command within the `cmake-build` folder in case you opted 
+to use `cmake` to compile the code.
 
 N3LL requires `-loop-mass none` (the default). At NNLL (`-order 2`), optional
 small-R resummation is enabled by `-small-r -R0 1.0`; it is not available at

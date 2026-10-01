@@ -11,6 +11,7 @@ include (ExternalProject)
 
 set (configure_command ./configure
   --prefix=${EXTERNAL_BUILD_DIR}
+  --disable-python
 )
 
 # this defines a target lhapdf which does everything to build and install LHAPDF
