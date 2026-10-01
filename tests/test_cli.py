@@ -61,4 +61,28 @@ with ThreadPoolExecutor(max_workers=3) as pool:
 assert results['nnll']==results['nnll-explicit'],'Default is not anew'
 matched=next(row for row in results['matched'] if row[0]==30)
 assert results['n3ll-H-antikt']!=results['n3ll-H-kt'],'Missing algorithm dependence'
+
+# Invalid cards must fail without creating an output or touching an old one.
+# DY fixes M to MZ, so a supplied M is an unused option (unchanged policy).
+invalid_cards={
+    'unknown-option':CARD.read_text()+'\nunknown_audit_option = 1\n',
+    'unused-DY-mass':CARD.read_text().replace('proc = H','proc = DY'),
+}
+for name,card_text in invalid_cards.items():
+    assert card_text!=CARD.read_text(),name
+    for existing in (False,True):
+        with tempfile.TemporaryDirectory() as tmp:
+            card=Path(tmp)/'invalid.fxd';card.write_text(card_text)
+            output=Path(tmp)/'result.dat'
+            sentinel=b'Previous valid result must be preserved\n'
+            if existing:output.write_bytes(sentinel)
+            result=subprocess.run([str(ROOT/'jetvheto'),'-in',str(card),
+                '-out',str(output),'-order','3','-cross-section'],cwd=ROOT,
+                text=True,capture_output=True,timeout=180)
+            assert result.returncode!=0,(name,'invalid card returned success')
+            assert 'was not recognized' in result.stdout+result.stderr,(name,result.stderr)
+            assert 'Unrecognized or unused input-card options' in result.stdout+result.stderr
+            if existing:assert output.read_bytes()==sentinel,name
+            else:assert not output.exists(),(name,'invalid card created output')
+print('4 invalid-card checks passed: nonzero exit, no new output, existing output preserved')
 print(f'{len(cases)} CLI cases passed; default equals explicit anew; matched value at 30 GeV: {matched[1]*1000:.7f} pb')

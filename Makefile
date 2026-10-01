@@ -46,6 +46,7 @@ tests/test_%: tests/test_%.f90 $(LIBOBJECTS)
 	$(FC) $(FFLAGS) $(INCLUDES) $(LDFLAGS) $< $(LIBOBJECTS) $(LIBS) -o $@
 check-fast: $(addprefix tests/test_,$(filter-out n3ll profile,$(TESTS)))
 	$(PYTHON) tests/test_fortran_dependencies.py
+	$(PYTHON) tests/test_coefficient_literal_precision.py
 	./tests/test_rad
 	$(PYTHON) tests/test_rad_import.py
 	./tests/test_radiator

@@ -218,7 +218,7 @@ contains
     real(dp)             :: x
     complex(dp) :: HPL2, HPL3
     complex(dp) :: HPL20, HPL30, HPL31
-    real(dp), parameter    :: cutoff=1e-11 ! cutoff to regularise the x->1 singularity in the gg coefficient function
+    real(dp), parameter    :: cutoff=1e-11_dp ! cutoff to regularise the x->1 singularity in the gg coefficient function
     !------------------------------------------
     ! The following declarations are necessary for hplog
     integer, parameter :: n1=-1
@@ -248,7 +248,7 @@ contains
     select case(cc_piece)
     case(cc_REAL,cc_REALVIRT)
        if (one - x > cutoff) then
-          res = (CF*(28*nf + CA*(-202 + 189*Zeta3)))/27./(one-x) + & ! this is the regular part of the plus distribution 1/(1-x)_+
+          res = (CF*(28*nf + CA*(-202 + 189*Zeta3)))/27._dp/(one-x) + & ! this is the regular part of the plus distribution 1/(1-x)_+
                ! now add the regular terms
                & (CF*(-344 + 24*Pi**2 + 974*x - 1600*CA*x + 1188*CF*x - 432*CA*HPL30*x + 1080*CF*HPL30*x + 148*nf*x - 60*Pi**2*x + 54*CA*Pi**2*x - 54*CF*Pi**2*x - 1188*x**2 + 1584*CA*x**2 - 2376*CF*x**2 - 72*nf*x**2 + 72*Pi**2*x**2 - 108*CA*Pi**2*x**2 + 108*CF*Pi**2*x**2 + 830*x**3 + 16*CA*x**3 + 1188*CF*x**3 - 432*CA*HPL30*x**3 + 1080*CF*HPL30*x**3 - 76*nf*x**3 - 60*Pi**2*x**3 + 54*CA*Pi**2*x**3 - 54*CF*Pi**2*x**3 - 272*x**4 + 24*Pi**2*x**4 + 216*(CA - CF)*HPL31*x*(1 + x**2) + 1188*CA*x*zeta3 - 1080*CF*x*zeta3 - 324*CA*x**3*zeta3 - 1080*CF*x**3*zeta3 - 36*CA*Pi**2*x*log(1 - x) + 36*CF*Pi**2*x*log(1 - x) - 108*CA*x**2*log(1 - x) + 108*CF*x**2*log(1 - x) + 108*CA*x**3*log(1 - x) - 108*CF*x**3*log(1 - x) - 36*CA*Pi**2*x**3*log(1 - x) + 36*CF*Pi**2*x**3*log(1 - x) - 252*x*log(x) + 348*CA*x*log(x) - 540*CF*x*log(x) - 60*nf*x*log(x) + 612*x**2*log(x) - 432*CA*x**2*log(x) + 1404*CF*x**2*log(x) - 744*x**3*log(x) + 996*CA*x**3*log(x) - 1728*CF*x**3*log(x) - 60*nf*x**3*log(x) + 384*x**4*log(x) - 144*log(1 - x)*log(x) + 360*x*log(1 - x)*log(x) - 216*CA*x*log(1 - x)*log(x) + 648*CF*x*log(1 - x)*log(x) - 432*x**2*log(1 - x)*log(x) + 432*CA*x**2*log(1 - x)*log(x) - 1296*CF*x**2*log(1 - x)*log(x) + 360*x**3*log(1 - x)*log(x) - 216*CA*x**3*log(1 - x)*log(x) + 648*CF*x**3*log(1 - x)*log(x) - 144*x**4*log(1 - x)*log(x) + 216*CA*x*log(1 - x)**2*log(x) - 324*CF*x*log(1 - x)**2*log(x) + 216*CA*x**3*log(1 - x)**2*log(x) - 324*CF*x**3*log(1 - x)**2*log(x) + 27*x*log(x)**2 + 99*CA*x*log(x)**2 - 162*CF*x*log(x)**2 - 18*nf*x*log(x)**2 + 108*CA*x**2*log(x)**2 - 108*CF*x**2*log(x)**2 + 45*x**3*log(x)**2 - 9*CA*x**3*log(x)**2 + 108*CF*x**3*log(x)**2 - 18*nf*x**3*log(x)**2 - 72*x**4*log(x)**2 - 108*CF*x*log(1 - x)*log(x)**2 - 108*CF*x**3*log(1 - x)*log(x)**2 - 18*x*log(x)**3 + 18*CA*x*log(x)**3 - 18*CF*x*log(x)**3 + 18*x**3*log(x)**3 + 18*CA*x**3*log(x)**3 + 18*CF*x**3*log(x)**3 - 72*HPL20*((-1 + x)**2*(2 + (-1 + 3*CA - 6*CF)*x + 2*x**2) - 3*(CA - CF)*x*(1 + x**2)*log(1 - x) - 3*(CA - 3*CF)*x*(1 + x**2)*log(x))))/(216*(-1 + x)*x)
        else
@@ -259,13 +259,13 @@ contains
     case(cc_VIRT,cc_REALVIRT)
        if (one - x > cutoff) then
           ! subtract the singular part of the 1/(1-x)_+ distribution
-          res = res - (CF*(28*nf + CA*(-202 + 189*Zeta3)))/27./(one-x)
+          res = res - (CF*(28*nf + CA*(-202 + 189*Zeta3)))/27._dp/(one-x)
        else
           res = res
        end if
     case(cc_DELTA)
        res = (CF*(9*CF*Pi**4 + 2*CA*(4856 - 603*Pi**2 + 18*Pi**4 - 2772*Zeta3) &
-            & + 4*nf*(-328 + 45*Pi**2 + 252*Zeta3)))/2592.
+            & + 4*nf*(-328 + 45*Pi**2 + 252*Zeta3)))/2592._dp
     end select
 
     if (cc_piece /= cc_DELTA) res = res * x
@@ -279,7 +279,7 @@ contains
     real(dp)             :: x
     complex(dp) :: HPL2, HPL3
     complex(dp) :: HPL20, HPL2_1, HPL30, HPL3_1, HPL31_1px
-    real(dp), parameter    :: cutoff=1e-11 ! cutoff to regularise the x->1 singularity in the gg coefficient function
+    real(dp), parameter    :: cutoff=1e-11_dp ! cutoff to regularise the x->1 singularity in the gg coefficient function
     !------------------------------------------
     ! The following declarations are necessary for hplog
     integer, parameter :: n1=-1
@@ -311,15 +311,15 @@ contains
     select case(cc_piece)
     case(cc_REAL,cc_REALVIRT)
        if (one - x > cutoff) then
-          res = 4*(CF*(((1 - x)*(172 - 143*x + 136*x**2))/(432.*x) + ((21 - 30*x + 32*x**2)*Log(x))/72. - &
-               &        ((3 + 3*x + 8*x**2)*Log(x)**2)/96. + ((1 + x)*Log(x)**3)/48. + &
-               &        ((1 - x)*(2 - x + 2*x**2)*(HPL20 - Pi**2/6. + Log(1 - x)*Log(x)))/(12.*x)) + &
-               &     CF*(-CA/2. + CF)*((Pi**2*(-3 + x))/24. + ((3 + 11*x)*Log(x))/8. + &
-               &        (1 - x)*(1.875 + HPL20/2. + (Log(1 - x)*Log(x))/2.) - &
-               &        ((1 + x)*(HPL2_1 + Log(x)*Log(1 + x)))/2. + &
-               &        ((1 + x**2)*(HPL30 + HPL31_1px + (3*HPL3_1)/2. - (3*zeta3)/4. - (HPL20*Log(x))/2. - &
-               &             (HPL2_1*Log(x))/2. - Log(x)**3/24. + (Pi**2*Log(1 + x))/12. + &
-               &             (Log(x)**2*Log(1 + x))/4. - Log(1 + x)**3/6.))/(1 + x)))
+          res = 4*(CF*(((1 - x)*(172 - 143*x + 136*x**2))/(432._dp*x) + ((21 - 30*x + 32*x**2)*Log(x))/72._dp - &
+               &        ((3 + 3*x + 8*x**2)*Log(x)**2)/96._dp + ((1 + x)*Log(x)**3)/48._dp + &
+               &        ((1 - x)*(2 - x + 2*x**2)*(HPL20 - Pi**2/6._dp + Log(1 - x)*Log(x)))/(12._dp*x)) + &
+               &     CF*(-CA/2._dp + CF)*((Pi**2*(-3 + x))/24._dp + ((3 + 11*x)*Log(x))/8._dp + &
+               &        (1 - x)*(1.875_dp + HPL20/2._dp + (Log(1 - x)*Log(x))/2._dp) - &
+               &        ((1 + x)*(HPL2_1 + Log(x)*Log(1 + x)))/2._dp + &
+               &        ((1 + x**2)*(HPL30 + HPL31_1px + (3*HPL3_1)/2._dp - (3*zeta3)/4._dp - (HPL20*Log(x))/2._dp - &
+               &             (HPL2_1*Log(x))/2._dp - Log(x)**3/24._dp + (Pi**2*Log(1 + x))/12._dp + &
+               &             (Log(x)**2*Log(1 + x))/4._dp - Log(1 + x)**3/6._dp))/(1 + x)))
        else
           res = zero
        end if
@@ -341,7 +341,7 @@ contains
     real(dp)             :: x
     complex(dp) :: HPL2, HPL3
     complex(dp) :: HPL20
-    real(dp), parameter    :: cutoff=1e-11 ! cutoff to regularise the x->1 singularity in the gg coefficient function
+    real(dp), parameter    :: cutoff=1e-11_dp ! cutoff to regularise the x->1 singularity in the gg coefficient function
     !------------------------------------------
     ! The following declarations are necessary for hplog
     integer, parameter :: n1=-1
@@ -365,9 +365,9 @@ contains
     select case(cc_piece)
     case(cc_REAL,cc_REALVIRT)
        if (one - x > cutoff) then
-          res = 4*CF*(((1 - x)*(172 - 143*x + 136*x**2))/(432.*x) + ((21 - 30*x + 32*x**2)*Log(x))/72. - &
-               &    ((3 + 3*x + 8*x**2)*Log(x)**2)/96. + ((1 + x)*Log(x)**3)/48. + &
-               &    ((1 - x)*(2 - x + 2*x**2)*(HPL20 - Pi**2/6. + Log(1 - x)*Log(x)))/(12.*x))
+          res = 4*CF*(((1 - x)*(172 - 143*x + 136*x**2))/(432._dp*x) + ((21 - 30*x + 32*x**2)*Log(x))/72._dp - &
+               &    ((3 + 3*x + 8*x**2)*Log(x)**2)/96._dp + ((1 + x)*Log(x)**3)/48._dp + &
+               &    ((1 - x)*(2 - x + 2*x**2)*(HPL20 - Pi**2/6._dp + Log(1 - x)*Log(x)))/(12._dp*x))
        else
           res = zero
        end if
@@ -391,7 +391,7 @@ contains
     real(dp)             :: x
     complex(dp) :: HPL2, HPL3
     complex(dp) :: HPL20, HPL2_1, HPL30, HPL31, HPL3_1
-    real(dp), parameter    :: cutoff=1e-11 ! cutoff to regularise the x->1 singularity in the gg coefficient function
+    real(dp), parameter    :: cutoff=1e-11_dp ! cutoff to regularise the x->1 singularity in the gg coefficient function
     !------------------------------------------
     ! The following declarations are necessary for hplog
     integer, parameter :: n1=-1
@@ -439,24 +439,24 @@ contains
     select case(cc_piece)
     case(cc_REAL,cc_REALVIRT)
        if (one-x > cutoff) then
-          res = 4._dp*(CF*nf*(-0.5185185185185185 + 14/(27.*x) + (13*x)/108. - (5*Log(1 - x))/18. + (5*Log(1 - x))/(18.*x) + (x*Log(1 - x))/18. - &
-               &       Log(1 - x)**2/12. + Log(1 - x)**2/(12.*x) + (x*Log(1 - x)**2)/24.) + &
-               &    CF**2*(0.625 - x/16. - 2*Log(1 - x) + (2*Log(1 - x))/x + (5*x*Log(1 - x))/8. - (3*Log(1 - x)**2)/8. + (3*Log(1 - x)**2)/(8.*x) + &
-               &       (x*Log(1 - x)**2)/16. - Log(1 - x)**3/12. + Log(1 - x)**3/(12.*x) + (x*Log(1 - x)**3)/24. - (15*Log(x))/16. + (5*x*Log(x))/16. - &
-               &       Log(x)**2/8. - (3*x*Log(x)**2)/32. + Log(x)**3/24. - (x*Log(x)**3)/48.) + &
-               &    CA*CF*(7.324074074074074 - Pi**2/3. - 395/(54.*x) + (11*Pi**2)/(36.*x) - (67*x)/27. + (Pi**2*x)/16. + (38*x**2)/27. - (Pi**2*x**2)/18. - &
-               &       (5*zeta3)/2. + (4*zeta3)/x + 2*x*zeta3 + (x*HPL2_1)/4. + 2*HPL20 - (11*HPL20)/(6.*x) - (x*HPL20)/2. + &
-               &       (x**2*HPL20)/3. - (3*HPL3_1)/2. - (3*HPL3_1)/(2.*x) - (3*x*HPL3_1)/4. + HPL30/2. - &
-               &       (5*HPL30)/(2.*x) - (5*x*HPL30)/4. - HPL31 - HPL31/x - (x*HPL31)/2. + &
-               &       (19*Log(1 - x))/9. - (19*Log(1 - x))/(9.*x) - (43*x*Log(1 - x))/72. + (11*Log(1 - x)**2)/24. - (11*Log(1 - x)**2)/(24.*x) - &
-               &       (5*x*Log(1 - x)**2)/48. + Log(1 - x)**3/12. - Log(1 - x)**3/(12.*x) - (x*Log(1 - x)**3)/24. - (83*Log(x))/24. + (x*Log(x))/12. - &
-               &       (11*x**2*Log(x))/9. + (HPL2_1*Log(x))/2. + (HPL2_1*Log(x))/(2.*x) + (x*HPL2_1*Log(x))/4. - (HPL20*Log(x))/2. + &
-               &       (3*HPL20*Log(x))/(2.*x) + (3*x*HPL20*Log(x))/4. + 2*Log(1 - x)*Log(x) - (11*Log(1 - x)*Log(x))/(6.*x) - &
-               &       (3*x*Log(1 - x)*Log(x))/4. + (x**2*Log(1 - x)*Log(x))/3. - (Log(1 - x)**2*Log(x))/4. + (Log(1 - x)**2*Log(x))/(4.*x) + &
-               &       (x*Log(1 - x)**2*Log(x))/8. + (3*Log(x)**2)/4. + (3*x*Log(x)**2)/16. + (x**2*Log(x)**2)/6. - (Log(1 - x)*Log(x)**2)/4. + &
-               &       (Log(1 - x)*Log(x)**2)/(4.*x) + (x*Log(1 - x)*Log(x)**2)/8. - Log(x)**3/12. - (x*Log(x)**3)/24. - (Pi**2*Log(1 + x))/12. - &
-               &       (Pi**2*Log(1 + x))/(12.*x) - (Pi**2*x*Log(1 + x))/24. + (x*Log(x)*Log(1 + x))/4. - (Log(x)**2*Log(1 + x))/4. - &
-               &       (Log(x)**2*Log(1 + x))/(4.*x) - (x*Log(x)**2*Log(1 + x))/8. + Log(1 + x)**3/6. + Log(1 + x)**3/(6.*x) + (x*Log(1 + x)**3)/12.))
+          res = 4._dp*(CF*nf*(-0.5185185185185185_dp + 14/(27._dp*x) + (13*x)/108._dp - (5*Log(1 - x))/18._dp + (5*Log(1 - x))/(18._dp*x) + (x*Log(1 - x))/18._dp - &
+               &       Log(1 - x)**2/12._dp + Log(1 - x)**2/(12._dp*x) + (x*Log(1 - x)**2)/24._dp) + &
+               &    CF**2*(0.625_dp - x/16._dp - 2*Log(1 - x) + (2*Log(1 - x))/x + (5*x*Log(1 - x))/8._dp - (3*Log(1 - x)**2)/8._dp + (3*Log(1 - x)**2)/(8._dp*x) + &
+               &       (x*Log(1 - x)**2)/16._dp - Log(1 - x)**3/12._dp + Log(1 - x)**3/(12._dp*x) + (x*Log(1 - x)**3)/24._dp - (15*Log(x))/16._dp + (5*x*Log(x))/16._dp - &
+               &       Log(x)**2/8._dp - (3*x*Log(x)**2)/32._dp + Log(x)**3/24._dp - (x*Log(x)**3)/48._dp) + &
+               &    CA*CF*(7.324074074074074_dp - Pi**2/3._dp - 395/(54._dp*x) + (11*Pi**2)/(36._dp*x) - (67*x)/27._dp + (Pi**2*x)/16._dp + (38*x**2)/27._dp - (Pi**2*x**2)/18._dp - &
+               &       (5*zeta3)/2._dp + (4*zeta3)/x + 2*x*zeta3 + (x*HPL2_1)/4._dp + 2*HPL20 - (11*HPL20)/(6._dp*x) - (x*HPL20)/2._dp + &
+               &       (x**2*HPL20)/3._dp - (3*HPL3_1)/2._dp - (3*HPL3_1)/(2._dp*x) - (3*x*HPL3_1)/4._dp + HPL30/2._dp - &
+               &       (5*HPL30)/(2._dp*x) - (5*x*HPL30)/4._dp - HPL31 - HPL31/x - (x*HPL31)/2._dp + &
+               &       (19*Log(1 - x))/9._dp - (19*Log(1 - x))/(9._dp*x) - (43*x*Log(1 - x))/72._dp + (11*Log(1 - x)**2)/24._dp - (11*Log(1 - x)**2)/(24._dp*x) - &
+               &       (5*x*Log(1 - x)**2)/48._dp + Log(1 - x)**3/12._dp - Log(1 - x)**3/(12._dp*x) - (x*Log(1 - x)**3)/24._dp - (83*Log(x))/24._dp + (x*Log(x))/12._dp - &
+               &       (11*x**2*Log(x))/9._dp + (HPL2_1*Log(x))/2._dp + (HPL2_1*Log(x))/(2._dp*x) + (x*HPL2_1*Log(x))/4._dp - (HPL20*Log(x))/2._dp + &
+               &       (3*HPL20*Log(x))/(2._dp*x) + (3*x*HPL20*Log(x))/4._dp + 2*Log(1 - x)*Log(x) - (11*Log(1 - x)*Log(x))/(6._dp*x) - &
+               &       (3*x*Log(1 - x)*Log(x))/4._dp + (x**2*Log(1 - x)*Log(x))/3._dp - (Log(1 - x)**2*Log(x))/4._dp + (Log(1 - x)**2*Log(x))/(4._dp*x) + &
+               &       (x*Log(1 - x)**2*Log(x))/8._dp + (3*Log(x)**2)/4._dp + (3*x*Log(x)**2)/16._dp + (x**2*Log(x)**2)/6._dp - (Log(1 - x)*Log(x)**2)/4._dp + &
+               &       (Log(1 - x)*Log(x)**2)/(4._dp*x) + (x*Log(1 - x)*Log(x)**2)/8._dp - Log(x)**3/12._dp - (x*Log(x)**3)/24._dp - (Pi**2*Log(1 + x))/12._dp - &
+               &       (Pi**2*Log(1 + x))/(12._dp*x) - (Pi**2*x*Log(1 + x))/24._dp + (x*Log(x)*Log(1 + x))/4._dp - (Log(x)**2*Log(1 + x))/4._dp - &
+               &       (Log(x)**2*Log(1 + x))/(4._dp*x) - (x*Log(x)**2*Log(1 + x))/8._dp + Log(1 + x)**3/6._dp + Log(1 + x)**3/(6._dp*x) + (x*Log(1 + x)**3)/12._dp))
        else
           res = zero
        end if
@@ -482,7 +482,7 @@ contains
     real(dp)             :: x
     complex(dp) :: HPL2, HPL3
     complex(dp) :: HPL20, HPL21, HPL2_1, HPL30, HPL31, HPL3_1
-    real(dp), parameter    :: cutoff=1e-11 ! cutoff to regularise the x->1 singularity in the gg coefficient function
+    real(dp), parameter    :: cutoff=1e-11_dp ! cutoff to regularise the x->1 singularity in the gg coefficient function
     !------------------------------------------
     ! The following declarations are necessary for hplog
     integer, parameter :: n1=-1
@@ -537,35 +537,35 @@ contains
        if (one - x > cutoff) then
           res =4._dp*((7._dp*CA*nf)/27._dp + CA**2*(-1.8703703703703705_dp + (7._dp*Zeta3)/4._dp))/(one-x) +& ! this is the regular part of the plus distribution 1/(1-x)_+
                ! now add the regular terms
-               &       4._dp*(CA*nf*(-0.7685185185185185 + 121/(216.*x) + (55*x)/108. - (139*x**2)/216. - (x*Log(1 - x))/24. + (13*Log(x))/72. + (5*x*Log(x))/36. + &
-               &       Log(x)**2/24. + (x*Log(x)**2)/24.) + CF*nf*(2 - 1/(12.*x) - 2*x + x**2/12. + (3*Log(x))/4. + (3*x*Log(x))/4. + (3*Log(x)**2)/16. + &
-               &       (x*Log(x)**2)/16. + Log(x)**3/24. + (x*Log(x)**3)/24.) + &
-               &       CA**2*(8.574074074074074 - 395/(54.*x) - (190*x)/27. + (835*x**2)/108. - (17*zeta3)/(4.*(1 + x)) - zeta3/(2.*(1 - x)*(1 + x)) + &
-               &       zeta3/(2.*x*(1 + x)) + (5*zeta3)/(2.*(1 - x)*x*(1 + x)) - (11*x*zeta3)/(2.*(1 + x)) + (5*x*zeta3)/(2.*(1 - x)*(1 + x)) - &
-               &       (5*x**2*zeta3)/(2.*(1 + x)) + (x**2*zeta3)/(2.*(1 - x)*(1 + x)) - (3*x**3*zeta3)/(1 + x) - (5*x**3*zeta3)/(2.*(1 - x)*(1 + x)) + &
-               &       (x**4*zeta3)/(2.*(1 - x)*(1 + x)) - 2*HPL21 + (11*HPL21)/(6.*x) + 2*x*HPL21 - (11*x**2*HPL21)/6. - &
-               &       HPL3_1/(1 + x) - HPL3_1/(2.*x*(1 + x)) - (3*x*HPL3_1)/(2.*(1 + x)) - (x**2*HPL3_1)/(1 + x) - &
-               &       (x**3*HPL3_1)/(2.*(1 + x)) + HPL30/(2.*(1 - x)*(1 + x)) - (5*HPL30)/(2.*(1 - x)*x*(1 + x)) - &
-               &       (5*x*HPL30)/(2.*(1 - x)*(1 + x)) - (x**2*HPL30)/(2.*(1 - x)*(1 + x)) + (5*x**3*HPL30)/(2.*(1 - x)*(1 + x)) - &
-               &       (x**4*HPL30)/(2.*(1 - x)*(1 + x)) + (2*HPL31)/(1 + x) + HPL31/(x*(1 + x)) + &
-               &       (3*x*HPL31)/(1 + x) + (2*x**2*HPL31)/(1 + x) + (x**3*HPL31)/(1 + x) + (x*Log(1 - x))/24. - &
-               &       (701*Log(x))/144. - (149*x*Log(x))/144. - (67*x**2*Log(x))/18. + (HPL2_1*Log(x))/(1 + x) + (HPL2_1*Log(x))/(2.*x*(1 + x)) + &
-               &       (3*x*HPL2_1*Log(x))/(2.*(1 + x)) + (x**2*HPL2_1*Log(x))/(1 + x) + (x**3*HPL2_1*Log(x))/(2.*(1 + x)) - &
-               &       (HPL20*Log(x))/(2.*(1 - x)*(1 + x)) + (3*HPL20*Log(x))/(2.*(1 - x)*x*(1 + x)) + (3*x*HPL20*Log(x))/(2.*(1 - x)*(1 + x)) + &
-               &       (x**2*HPL20*Log(x))/(2.*(1 - x)*(1 + x)) - (3*x**3*HPL20*Log(x))/(2.*(1 - x)*(1 + x)) + &
-               &       (x**4*HPL20*Log(x))/(2.*(1 - x)*(1 + x)) - (Log(1 - x)**2*Log(x))/(2.*(1 - x)) + (Log(1 - x)**2*Log(x))/(4.*(1 - x)*x) + &
-               &       (3*x*Log(1 - x)**2*Log(x))/(4.*(1 - x)) - (x**2*Log(1 - x)**2*Log(x))/(2.*(1 - x)) + (x**3*Log(1 - x)**2*Log(x))/(4.*(1 - x)) + &
-               &       (25*Log(x)**2)/48. - (11*x*Log(x)**2)/48. + (11*x**2*Log(x)**2)/12. - (Log(1 - x)*Log(x)**2)/(2.*(1 - x)) + &
-               &       (Log(1 - x)*Log(x)**2)/(4.*(1 - x)*x) + (3*x*Log(1 - x)*Log(x)**2)/(4.*(1 - x)) - (x**2*Log(1 - x)*Log(x)**2)/(2.*(1 - x)) + &
-               &       (x**3*Log(1 - x)*Log(x)**2)/(4.*(1 - x)) - Log(x)**3/(12.*(1 - x)*(1 + x)) - (x*Log(x)**3)/(6.*(1 - x)*(1 + x)) + &
-               &       (x**2*Log(x)**3)/(12.*(1 - x)*(1 + x)) + (x**3*Log(x)**3)/(6.*(1 - x)*(1 + x)) - (x**4*Log(x)**3)/(12.*(1 - x)*(1 + x)) + &
-               &       (Pi**2*Log(1 + x))/(6.*(1 + x)) + (Pi**2*Log(1 + x))/(12.*x*(1 + x)) + (Pi**2*x*Log(1 + x))/(4.*(1 + x)) + &
-               &       (Pi**2*x**2*Log(1 + x))/(6.*(1 + x)) + (Pi**2*x**3*Log(1 + x))/(12.*(1 + x)) - (Log(x)**2*Log(1 + x))/(2.*(1 + x)) - &
-               &       (Log(x)**2*Log(1 + x))/(4.*x*(1 + x)) - (3*x*Log(x)**2*Log(1 + x))/(4.*(1 + x)) - (x**2*Log(x)**2*Log(1 + x))/(2.*(1 + x)) - &
-               &       (x**3*Log(x)**2*Log(1 + x))/(4.*(1 + x)) + (Log(x)*Log(1 + x)**2)/(1 + x) + (Log(x)*Log(1 + x)**2)/(2.*x*(1 + x)) + &
-               &       (3*x*Log(x)*Log(1 + x)**2)/(2.*(1 + x)) + (x**2*Log(x)*Log(1 + x)**2)/(1 + x) + (x**3*Log(x)*Log(1 + x)**2)/(2.*(1 + x)) - &
-               &       Log(1 + x)**3/(3.*(1 + x)) - Log(1 + x)**3/(6.*x*(1 + x)) - (x*Log(1 + x)**3)/(2.*(1 + x)) - (x**2*Log(1 + x)**3)/(3.*(1 + x)) - &
-               &       (x**3*Log(1 + x)**3)/(6.*(1 + x))))
+               &       4._dp*(CA*nf*(-0.7685185185185185_dp + 121/(216._dp*x) + (55*x)/108._dp - (139*x**2)/216._dp - (x*Log(1 - x))/24._dp + (13*Log(x))/72._dp + (5*x*Log(x))/36._dp + &
+               &       Log(x)**2/24._dp + (x*Log(x)**2)/24._dp) + CF*nf*(2 - 1/(12._dp*x) - 2*x + x**2/12._dp + (3*Log(x))/4._dp + (3*x*Log(x))/4._dp + (3*Log(x)**2)/16._dp + &
+               &       (x*Log(x)**2)/16._dp + Log(x)**3/24._dp + (x*Log(x)**3)/24._dp) + &
+               &       CA**2*(8.574074074074074_dp - 395/(54._dp*x) - (190*x)/27._dp + (835*x**2)/108._dp - (17*zeta3)/(4._dp*(1 + x)) - zeta3/(2._dp*(1 - x)*(1 + x)) + &
+               &       zeta3/(2._dp*x*(1 + x)) + (5*zeta3)/(2._dp*(1 - x)*x*(1 + x)) - (11*x*zeta3)/(2._dp*(1 + x)) + (5*x*zeta3)/(2._dp*(1 - x)*(1 + x)) - &
+               &       (5*x**2*zeta3)/(2._dp*(1 + x)) + (x**2*zeta3)/(2._dp*(1 - x)*(1 + x)) - (3*x**3*zeta3)/(1 + x) - (5*x**3*zeta3)/(2._dp*(1 - x)*(1 + x)) + &
+               &       (x**4*zeta3)/(2._dp*(1 - x)*(1 + x)) - 2*HPL21 + (11*HPL21)/(6._dp*x) + 2*x*HPL21 - (11*x**2*HPL21)/6._dp - &
+               &       HPL3_1/(1 + x) - HPL3_1/(2._dp*x*(1 + x)) - (3*x*HPL3_1)/(2._dp*(1 + x)) - (x**2*HPL3_1)/(1 + x) - &
+               &       (x**3*HPL3_1)/(2._dp*(1 + x)) + HPL30/(2._dp*(1 - x)*(1 + x)) - (5*HPL30)/(2._dp*(1 - x)*x*(1 + x)) - &
+               &       (5*x*HPL30)/(2._dp*(1 - x)*(1 + x)) - (x**2*HPL30)/(2._dp*(1 - x)*(1 + x)) + (5*x**3*HPL30)/(2._dp*(1 - x)*(1 + x)) - &
+               &       (x**4*HPL30)/(2._dp*(1 - x)*(1 + x)) + (2*HPL31)/(1 + x) + HPL31/(x*(1 + x)) + &
+               &       (3*x*HPL31)/(1 + x) + (2*x**2*HPL31)/(1 + x) + (x**3*HPL31)/(1 + x) + (x*Log(1 - x))/24._dp - &
+               &       (701*Log(x))/144._dp - (149*x*Log(x))/144._dp - (67*x**2*Log(x))/18._dp + (HPL2_1*Log(x))/(1 + x) + (HPL2_1*Log(x))/(2._dp*x*(1 + x)) + &
+               &       (3*x*HPL2_1*Log(x))/(2._dp*(1 + x)) + (x**2*HPL2_1*Log(x))/(1 + x) + (x**3*HPL2_1*Log(x))/(2._dp*(1 + x)) - &
+               &       (HPL20*Log(x))/(2._dp*(1 - x)*(1 + x)) + (3*HPL20*Log(x))/(2._dp*(1 - x)*x*(1 + x)) + (3*x*HPL20*Log(x))/(2._dp*(1 - x)*(1 + x)) + &
+               &       (x**2*HPL20*Log(x))/(2._dp*(1 - x)*(1 + x)) - (3*x**3*HPL20*Log(x))/(2._dp*(1 - x)*(1 + x)) + &
+               &       (x**4*HPL20*Log(x))/(2._dp*(1 - x)*(1 + x)) - (Log(1 - x)**2*Log(x))/(2._dp*(1 - x)) + (Log(1 - x)**2*Log(x))/(4._dp*(1 - x)*x) + &
+               &       (3*x*Log(1 - x)**2*Log(x))/(4._dp*(1 - x)) - (x**2*Log(1 - x)**2*Log(x))/(2._dp*(1 - x)) + (x**3*Log(1 - x)**2*Log(x))/(4._dp*(1 - x)) + &
+               &       (25*Log(x)**2)/48._dp - (11*x*Log(x)**2)/48._dp + (11*x**2*Log(x)**2)/12._dp - (Log(1 - x)*Log(x)**2)/(2._dp*(1 - x)) + &
+               &       (Log(1 - x)*Log(x)**2)/(4._dp*(1 - x)*x) + (3*x*Log(1 - x)*Log(x)**2)/(4._dp*(1 - x)) - (x**2*Log(1 - x)*Log(x)**2)/(2._dp*(1 - x)) + &
+               &       (x**3*Log(1 - x)*Log(x)**2)/(4._dp*(1 - x)) - Log(x)**3/(12._dp*(1 - x)*(1 + x)) - (x*Log(x)**3)/(6._dp*(1 - x)*(1 + x)) + &
+               &       (x**2*Log(x)**3)/(12._dp*(1 - x)*(1 + x)) + (x**3*Log(x)**3)/(6._dp*(1 - x)*(1 + x)) - (x**4*Log(x)**3)/(12._dp*(1 - x)*(1 + x)) + &
+               &       (Pi**2*Log(1 + x))/(6._dp*(1 + x)) + (Pi**2*Log(1 + x))/(12._dp*x*(1 + x)) + (Pi**2*x*Log(1 + x))/(4._dp*(1 + x)) + &
+               &       (Pi**2*x**2*Log(1 + x))/(6._dp*(1 + x)) + (Pi**2*x**3*Log(1 + x))/(12._dp*(1 + x)) - (Log(x)**2*Log(1 + x))/(2._dp*(1 + x)) - &
+               &       (Log(x)**2*Log(1 + x))/(4._dp*x*(1 + x)) - (3*x*Log(x)**2*Log(1 + x))/(4._dp*(1 + x)) - (x**2*Log(x)**2*Log(1 + x))/(2._dp*(1 + x)) - &
+               &       (x**3*Log(x)**2*Log(1 + x))/(4._dp*(1 + x)) + (Log(x)*Log(1 + x)**2)/(1 + x) + (Log(x)*Log(1 + x)**2)/(2._dp*x*(1 + x)) + &
+               &       (3*x*Log(x)*Log(1 + x)**2)/(2._dp*(1 + x)) + (x**2*Log(x)*Log(1 + x)**2)/(1 + x) + (x**3*Log(x)*Log(1 + x)**2)/(2._dp*(1 + x)) - &
+               &       Log(1 + x)**3/(3._dp*(1 + x)) - Log(1 + x)**3/(6._dp*x*(1 + x)) - (x*Log(1 + x)**3)/(2._dp*(1 + x)) - (x**2*Log(1 + x)**3)/(3._dp*(1 + x)) - &
+               &       (x**3*Log(1 + x)**3)/(6._dp*(1 + x))))
        else
           res = zero
        end if
@@ -595,7 +595,7 @@ contains
     real(dp)             :: x
     complex(dp) :: HPL2, HPL3
     complex(dp) :: HPL20, HPL21, HPL2_1, HPL30, HPL31, HPL3_1, HPL3x_1px, HPL31_1px
-    real(dp), parameter    :: cutoff=1e-11 ! cutoff to regularise the x->1 singularity in the gg coefficient function
+    real(dp), parameter    :: cutoff=1e-11_dp ! cutoff to regularise the x->1 singularity in the gg coefficient function
     !------------------------------------------
     ! The following declarations are necessary for hplog
     integer, parameter :: n1=-1

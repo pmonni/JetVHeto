@@ -211,7 +211,7 @@ contains
                &     " in file "//trim(opts%filename)//" was not recognized"
        end if
     end do
-    if (unused /= 0) stop
+    if (unused /= 0) error stop 'Unrecognized or unused input-card options'
   end subroutine assert_all_opts_used
   
 

@@ -171,8 +171,6 @@ program jetvheto
   outfile = path_val_opt("-out","/dev/stdout")
   if (outfile == "-") then
      iunit = 6
-  else
-     open(7,file=outfile)
   end if
   differential = log_val_opt('-differential',.false.) 
   ! for testing purposes only; NB: to effectively check the
@@ -267,6 +265,9 @@ program jetvheto
   ! from the fixed-order file
   if (.not. CheckAllArgsUsed(0)) error stop 'Unrecognized command-line option'
   call assert_all_opts_used(opts)
+
+  ! Do not create or touch the output file for invalid input.
+  if (outfile /= "-") open(7,file=outfile)
 
   !----------------------------------------------------------------------
   ! send documentation to the output files
