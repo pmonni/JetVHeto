@@ -32,7 +32,9 @@ Running the command line
 
 python3 scripts/reproduce_figures.py --input-dir inputs --output-dir outputs
 
-creates a directory outputs/ containing the plots of Ref. XXXX.XXXX.
+creates a directory outputs/ containing the plots of Ref. XXXX.XXXX. 
+Execute this command within the cmake-build folder in case you opted 
+to use cmake to compile the code.
 
 N3LL requires `-loop-mass none` (the default). At NNLL (`-order 2`), optional
 small-R resummation is enabled by `-small-r -R0 1.0`; it is not available at
